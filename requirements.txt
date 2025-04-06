@@ -1,0 +1,9 @@
+Pyspark
+matplotlib
+numpy
+pandas
+scikit-learn
+seaborn
+Pyspark_SQL
+streamlit
+Spark Mlib
