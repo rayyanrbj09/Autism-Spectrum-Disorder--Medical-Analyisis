@@ -21,7 +21,7 @@ ASD diagnosis can be delayed due to high costs, limited clinical resources, and 
 ## Dataset Information
 
 - **Name**: Autistic Spectrum Disorder Screening Data for Toddlers
-- **Source**: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Autism+Screening+Data+for+Toddlers)
+- **Source**: Autism screening data for toddlers(https://www.kaggle.com/datasets/fabdelja/autism-screening-for-toddlers?resource=download)
 - **Date**: July 22, 2018
 - **Type**: Behavioral, Medical, Social
 - **Attributes**:
