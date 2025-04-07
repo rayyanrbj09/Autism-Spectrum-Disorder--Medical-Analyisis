@@ -79,3 +79,28 @@ ASD diagnosis can be delayed due to high costs, limited clinical resources, and 
 - pip or conda
 - Git
 
+## Some important things to be noted.
+## Q-CHAT-10 Scoring Guide
+The Q-CHAT-10 (Quantitative Checklist for Autism in Toddlers - 10 item version) is a brief, validated screening tool designed to identify early signs of autism in toddlers aged 18 to 30 months.
+
+# Scoring System:
+- The questionnaire contains 10 Yes/No questions.
+- Some items are reverse-scored.
+
+- Each response contributes 0 or 1 point to the total score.
+
+The total score ranges from 0 to 10.
+
+## Interpretation:
+## Total Score	Screening Outcome
+-- 0 – 2	Negative screen – Low likelihood of autism
+-- ≥ 3	Positive screen – Elevated likelihood of autism; further evaluation recommended
+-- ⚠️ Important: The Q-CHAT-10 is a screening tool, not a diagnostic test. A score of 3 or more indicates that the child may benefit from a comprehensive diagnostic assessment by a qualified healthcare professional.
+
+## Usage Notes:
+-- Best suited for toddlers aged 18–30 months.
+
+-- Designed for early identification of social-communication difficulties and repetitive behaviors.
+
+-- Can be used in clinical settings, research, or community-based screening programs.
+
