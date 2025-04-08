@@ -17,6 +17,19 @@ ASD diagnosis can be delayed due to high costs, limited clinical resources, and 
 - Deploying a user-friendly interface for real-time predictions.
 
 ---
+## 📄 Abstract: Existing System vs Proposed System
+
+| **Aspect**                         | **Existing System**                                                                 | **Proposed System**                                                                                      |
+|-----------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **Data Usage**                    | Limited use of toddler data for ASD detection.                                      | Uses real-world toddler datasets including age, QCHAT-10 score, family history, and more.                |
+| **Diagnosis Method**              | Manual screening by clinicians using questionnaires.                                | Semi-automated data analysis to assist early detection using QCHAT-10 score trends.                      |
+| **Data Cleaning**                 | Often lacks pre-processing for standardization.                                     | Applies data cleaning (e.g., string formatting, missing value handling) for better consistency.          |
+| **Visualization**                 | Rarely visualizes correlation in public tools.                                      | Provides intuitive visualizations (bar plots, heatmaps) to show trends and insights.                     |
+| **Family History Consideration**  | Not always considered systematically.                                               | Correlates ASD traits with presence/absence of family member with ASD.                                   |
+| **Age Group Analysis**            | No detailed analysis by age bands.                                                  | Uses grouped age ranges to analyze ASD trends across different developmental stages.                     |
+| **Accessibility**                 | Data insights not easily accessible to non-experts.                                 | Uses Python-based tools like pandas, seaborn, matplotlib to generate understandable insights.            |
+| **Objective**                     | Primarily diagnostic without educational insights.                                  | Helps parents, researchers, and clinicians identify early patterns in toddlers’ behavior.                |
+| **Scalability**                   | Not designed for batch analysis or future automation.                               | Easily scalable with integration into machine learning models or web dashboards (future scope).          |
 
 ## Dataset Information
 
