@@ -31,7 +31,6 @@ ASD diagnosis can be delayed due to high costs, limited clinical resources, and 
   - Born with jaundice (yes/no)
   - Family history of ASD (yes/no)
   - Score and final classification
-
 ---
 
 ##  Tech Stack

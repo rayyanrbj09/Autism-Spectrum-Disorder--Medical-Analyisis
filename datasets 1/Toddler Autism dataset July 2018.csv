@@ -1,4 +1,4 @@
-Case_No,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,Age_Mons,Qchat-10-Score,Sex,Ethnicity,Jaundice,Family_mem_with_ASD,Who completed the test,"Class/ASD Traits "
+Case_No,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,Age_Mons,Qchat-10-Score,Sex,Ethnicity,Jaundice,Family_mem_with_ASD,Who completed the test,Class/ASD Traits
 1,0,0,0,0,0,0,1,1,0,1,28,3,f,middle eastern,yes,no,family member,No
 2,1,1,0,0,0,1,1,0,0,0,36,4,m,White European,yes,no,family member,Yes
 3,1,0,0,0,0,0,1,1,0,1,36,4,m,middle eastern,yes,no,family member,Yes
@@ -7,7 +7,7 @@ Case_No,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,Age_Mons,Qchat-10-Score,Sex,Ethnicity,Jau
 6,1,1,0,0,1,1,1,1,1,1,21,8,m,black,no,no,family member,Yes
 7,1,0,0,1,1,1,0,0,1,0,33,5,m,asian,yes,no,family member,Yes
 8,0,1,0,0,1,0,1,1,1,1,33,6,m,asian,yes,no,family member,Yes
-9,0,0,0,0,0,0,1,0,0,1,36,2,m,asian,no,no,family member,No
+9,0,0,0,0,0,0,1,0,0,1,36,2,m,asian,no,no,family member,No 
 10,1,1,1,0,1,1,0,1,1,1,22,8,m,south asian,no,no,Health Care Professional,Yes
 11,1,0,0,1,0,1,1,0,1,1,36,6,m,Hispanic,yes,yes,family member,Yes
 12,1,1,1,1,0,1,1,1,0,1,17,8,m,middle eastern,yes,no,family member,Yes
