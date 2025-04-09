@@ -9,3 +9,9 @@
 **24-36 Months**:
 - Darker red cells (-30 to -45) dominate, indicating a higher prevalence of elevated QCHAT-10 scores. This could suggest that ASD traits are more detectable or severe in this age group, consistent with developmental progression and increased screening sensitivity.
 
+## ASD traits in toddlers vs Family History of ASD
+
+**From The Graph**:
+-- It is observed that the toddlers with ASD and Family History of ASD doesn't have that common siginficance on each other. Both the traits may be consider independent of esch other.
+
+-- The toddlers with ASD. Their family History of ASD has less significant .
