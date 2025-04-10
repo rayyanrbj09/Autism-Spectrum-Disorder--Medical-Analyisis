@@ -3,14 +3,16 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 import os
 
+# Page config
 st.set_page_config(page_title="ASD Prediction App", layout="centered")
 
+# File paths
 DATA_PATH = 'datasets 1/Toddler Autism dataset July 2018.csv'
 LOG_PATH = 'user_predictions.csv'
 
+# Load data with caching
 @st.cache_data
 def load_data():
     data = pd.read_csv(DATA_PATH)
@@ -20,6 +22,7 @@ def load_data():
     data['Class ASD Traits'] = data['Class ASD Traits'].apply(lambda x: 1 if str(x).strip().upper() == 'YES' else 0)
     return data
 
+# Train RandomForest model
 def train_model(data):
     feature_cols = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
     x = data[feature_cols].copy()
@@ -30,26 +33,27 @@ def train_model(data):
         x[col] = x[col].apply(lambda x: 1 if str(x).strip().lower() in ['sometimes', 'rarely', 'never'] else 0)
     x['A9'] = x['A9'].apply(lambda x: 1 if str(x).strip().lower() in ['always', 'usually', 'sometimes'] else 0)
 
-    # Convert all to numeric and fill missing values
+    # Handle missing values
     x = x.apply(pd.to_numeric, errors='coerce').fillna(0)
     y = pd.to_numeric(y, errors='coerce').fillna(0)
 
-    # Train model
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(x, y)
 
     return model, feature_cols
 
+# Convert form answers to binary
 def convert_answers_to_binary(answers):
     binary_values = []
     for i, answer in enumerate(answers):
         answer = answer.lower()
-        if i == 9:
+        if i == 9:  # A10
             binary_values.append(1 if answer in ['always', 'usually', 'sometimes'] else 0)
         else:
             binary_values.append(1 if answer in ['sometimes', 'rarely', 'never'] else 0)
     return binary_values
 
+# Plot Q-Chat score visualization
 def plot_qchat_score(score):
     fig, ax = plt.subplots(figsize=(8, 1.5))
     colors = ['green' if i <= 3 else 'orange' if i <= 6 else 'red' for i in range(11)]
@@ -82,6 +86,7 @@ questions = [
 
 options = ['Always', 'Usually', 'Sometimes', 'Rarely', 'Never']
 
+# User form
 with st.form("ASD Form"):
     answers = [st.selectbox(q, options, key=i) for i, q in enumerate(questions)]
     jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
@@ -92,6 +97,7 @@ with st.form("ASD Form"):
     who_completed = st.selectbox("Who completed the test?", ['Parent', 'Self', 'Health care professional', 'Other'])
     submitted = st.form_submit_button("Predict")
 
+# Prediction logic
 if submitted:
     data = load_data()
     model, feature_cols = train_model(data)
@@ -102,15 +108,14 @@ if submitted:
     input_vector = binary_answers + [jaundice_val, family_asd_val, age_mons]
     input_df = pd.DataFrame([input_vector], columns=feature_cols)
 
-    prediction = model.predict(input_df)[0]
-    result = "YES" if prediction >= 4 else "NO"
     qchat_score = sum(binary_answers)
+    result = "YES" if qchat_score >= 4 else "NO"
 
     st.subheader(f"ASD Prediction: **{result}**")
     st.write(f"Q-Chat-10 Score: **{qchat_score}**")
     plot_qchat_score(qchat_score)
 
-    # Save prediction log
+    # Save to CSV log
     if os.path.exists(LOG_PATH):
         case_no = len(pd.read_csv(LOG_PATH)) + 1
     else:
@@ -131,4 +136,5 @@ if submitted:
         pd.DataFrame(columns=new_entry.keys()).to_csv(LOG_PATH, index=False, encoding='utf-8-sig')
 
     pd.DataFrame([new_entry]).to_csv(LOG_PATH, mode='a', header=False, index=False, encoding='utf-8-sig')
+
     
