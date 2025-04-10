@@ -40,8 +40,6 @@ def train_model(data):
 
     return model, feature_cols
 
-
-
 def convert_answers_to_binary(answers):
     binary_values = []
     for i, answer in enumerate(answers):
@@ -105,7 +103,7 @@ if submitted:
     input_df = pd.DataFrame([input_vector], columns=feature_cols)
 
     prediction = model.predict(input_df)[0]
-    result = "YES" if prediction == 1 else "NO"
+    result = "YES" if prediction > 5 else "NO"
     qchat_score = sum(binary_answers)
 
     st.subheader(f"ASD Prediction: **{result}**")
@@ -133,4 +131,4 @@ if submitted:
         pd.DataFrame(columns=new_entry.keys()).to_csv(LOG_PATH, index=False, encoding='utf-8-sig')
 
     pd.DataFrame([new_entry]).to_csv(LOG_PATH, mode='a', header=False, index=False, encoding='utf-8-sig')
-    st.success("📝 Response saved successfully!")
+    
