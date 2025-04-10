@@ -25,30 +25,21 @@ def train_model(data):
     x = data[feature_cols].copy()
     y = data['Class ASD Traits'].copy()
 
+    # Convert Q-Chat responses to binary
     for col in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A10']:
         x[col] = x[col].apply(lambda x: 1 if str(x).strip().lower() in ['sometimes', 'rarely', 'never'] else 0)
     x['A9'] = x['A9'].apply(lambda x: 1 if str(x).strip().lower() in ['always', 'usually', 'sometimes'] else 0)
 
-    # Encode & convert all to numeric
-    x = x.apply(pd.to_numeric, errors='coerce')
-    y = pd.to_numeric(y, errors='coerce')
+    # Convert all to numeric and fill missing values
+    x = x.apply(pd.to_numeric, errors='coerce').fillna(0)
+    y = pd.to_numeric(y, errors='coerce').fillna(0)
 
-    # Check for NaNs
-    if x.isnull().sum().sum() > 0 or y.isnull().sum() > 0:
-        st.warning("NaN values found in training data. Filling with 0s.")
-        x = x.fillna(0)
-        y = y.fillna(0)
-
-    # Final shape/type check
-    st.write("Training data preview:")
-    st.write(x.head())
-    st.write("Labels preview:", y.unique())
-    st.write("X shape:", x.shape, "| y shape:", y.shape)
-
+    # Train model
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(x, y)
 
     return model, feature_cols
+
 
 
 def convert_answers_to_binary(answers):
