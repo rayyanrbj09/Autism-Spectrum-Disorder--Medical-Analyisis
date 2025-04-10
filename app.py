@@ -30,13 +30,15 @@ def get_user_input():
 
     jaundice = input("Was the child born with jaundice? (Yes/No): ").strip().lower()
     family_mem_with_asd = input("Is there any family member with ASD? (Yes/No): ").strip().lower()
-    ethnicity = input("Enter the child's ethnicity: ").strip()
+    sex = input("The Gender of the toddler : ").strip().lower()
+    ethnicity = str(input("Enter the child's ethnicity: ").strip())
     age_mons = int(input("Enter the child's age in months: ").strip())
     who_completed_test = input("Who completed the test? (Parent/Self/Health care professional/Other): ").strip()
 
     extra_info = {
-        'jaundice': 1 if jaundice == 'yes' else 0,
-        'family_mem_with_asd': 1 if family_mem_with_asd == 'yes' else 0,
+        'jaundice': 'yes'if jaundice == 'yes' else 'no',
+        'family_mem_with_asd': 'yes' if family_mem_with_asd == 'yes' else 'no',
+        'sex': 'm' if sex == 'm' else 'f',
         'ethnicity': ethnicity,
         'age_mons': age_mons,
         'who_completed': who_completed_test
@@ -98,8 +100,9 @@ def main():
         user_binary.append(extra_info['age_mons'])
 
         # Prediction
-        prediction = model.predict(np.array(user_binary).reshape(1, -1))[0]
-        result = 'YES' if prediction == 1 else 'NO'
+        user_input_df = pd.DataFrame([user_binary], columns=feature_cols)
+        prediction = model.predict(user_input_df)[0]
+        result = 'Yes' if prediction == 'Yes' else 'NO'
         asd_score = sum(user_binary[:10])  # Q-chat-10 only
 
         print(f"\n ASD Prediction: {result}")
@@ -111,14 +114,16 @@ def main():
             'A1': user_binary[0], 'A2': user_binary[1], 'A3': user_binary[2],
             'A4': user_binary[3], 'A5': user_binary[4], 'A6': user_binary[5],
             'A7': user_binary[6], 'A8': user_binary[7], 'A9': user_binary[8],
-            'A10': user_binary[9], 'Jaundice': extra_info['jaundice'],
+            'A10': user_binary[9],'Age_Mons': extra_info['age_mons'],
+            'Qchat_10_Score': asd_score,
+            'Sex':extra_info['sex'], 'Ethnicity': extra_info['ethnicity'],
+            'Jaundice': extra_info['jaundice'],
             'Family_mem_with_ASD': extra_info['family_mem_with_asd'],
-            'Age_Mons': extra_info['age_mons'], 'Ethnicity': extra_info['ethnicity'],
             'Who_completed_the_test': extra_info['who_completed'],
-            'Class ASD Traits': prediction
+            'Class ASD Traits': str(prediction)
         }
 
-        pd.DataFrame([new_entry]).to_csv(path, mode='a', header=False, index=False, encoding='utf-8')
+        pd.DataFrame([new_entry]).to_csv(path, mode='a', header=False, index=False, encoding='utf-8-sig')
         print(" User data appended successfully.")
 
     except Exception as e:

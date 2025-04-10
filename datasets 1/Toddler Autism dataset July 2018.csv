@@ -1052,5 +1052,6 @@ Case_No,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,Age_Mons,Qchat-10-Score,Sex,Ethnicity,Jau
 1051,0,0,1,1,1,0,1,0,1,0,12,5,m,black,yes,no,family member,Yes
 1052,1,0,1,1,1,1,1,1,1,1,18,9,m,middle eastern,yes,no,family member,Yes
 1053,1,0,0,0,0,0,0,1,0,1,19,3,m,White European,no,yes,family member,No
-1054,1,1,0,0,1,1,0,1,1,0,24,6,m,asian,yes,yes,family member,Yes
-0,0,1,1,1,1,1,1,1,1,1,1,12,Native Inidan,Parent,1
+
+0,0,1,1,1,1,0,1,1,1,26,7,f,Native Indian,1,0,Parent,1
+0,0,1,1,1,0,1,0,0,0,32,4,f,USA,1,1,Parent,1

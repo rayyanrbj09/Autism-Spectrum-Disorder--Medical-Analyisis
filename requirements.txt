@@ -6,4 +6,3 @@ scikit-learn
 seaborn
 Pyspark_SQL
 streamlit
-Spark Mlib
