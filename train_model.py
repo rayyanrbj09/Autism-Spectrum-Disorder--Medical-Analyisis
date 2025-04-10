@@ -36,15 +36,18 @@ def get_user_input():
     who_completed_test = input("Who completed the test? (Parent/Self/Health care professional/Other): ").strip()
 
     extra_info = {
-        'jaundice': 'yes'if jaundice == 'yes' else 'no',
-        'family_mem_with_asd': 'yes' if family_mem_with_asd == 'yes' else 'no',
+        'jaundice': jaundice,
+        'family_mem_with_asd': family_mem_with_asd,
         'sex': 'm' if sex == 'm' else 'f',
         'ethnicity': ethnicity,
         'age_mons': age_mons,
         'who_completed': who_completed_test
     }
+    # For model input, convert to numeric:
+    jaundice_val = 1 if jaundice == 'yes' else 0
+    family_asd_val = 1 if family_mem_with_asd == 'yes' else 0
 
-    return answers, extra_info
+    return answers, extra_info, jaundice_val, family_asd_val
 
 def convert_answers_to_binary(answers):
     binary_values = []
@@ -92,17 +95,16 @@ def main():
         model.fit(X_train, y_train)
 
         # User input
-        user_answers, extra_info = get_user_input()
+        user_answers, extra_info, jaundice_val, family_asd_val = get_user_input()
         user_binary = convert_answers_to_binary(user_answers)
 
-        user_binary.append(extra_info['jaundice'])
-        user_binary.append(extra_info['family_mem_with_asd'])
+        user_binary.append(jaundice_val)
+        user_binary.append(family_asd_val)
         user_binary.append(extra_info['age_mons'])
-
         # Prediction
         user_input_df = pd.DataFrame([user_binary], columns=feature_cols)
         prediction = model.predict(user_input_df)[0]
-        result = 'Yes' if prediction == 'Yes' else 'NO'
+        result = 'Yes' if prediction == 1 else 'NO' # Needed to be changed 
         asd_score = sum(user_binary[:10])  # Q-chat-10 only
 
         print(f"\n ASD Prediction: {result}")
@@ -120,7 +122,7 @@ def main():
             'Jaundice': extra_info['jaundice'],
             'Family_mem_with_ASD': extra_info['family_mem_with_asd'],
             'Who_completed_the_test': extra_info['who_completed'],
-            'Class ASD Traits': str(prediction)
+            'Class ASD Traits': result
         }
 
         pd.DataFrame([new_entry]).to_csv(path, mode='a', header=False, index=False, encoding='utf-8-sig')
@@ -131,3 +133,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+# store jo karna yes and no mein karna 
