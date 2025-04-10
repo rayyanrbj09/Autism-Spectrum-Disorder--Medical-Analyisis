@@ -23,18 +23,33 @@ def load_data():
 def train_model(data):
     feature_cols = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
     x = data[feature_cols].copy()
-    y = data['Class ASD Traits']
+    y = data['Class ASD Traits'].copy()
 
     for col in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A10']:
         x[col] = x[col].apply(lambda x: 1 if str(x).strip().lower() in ['sometimes', 'rarely', 'never'] else 0)
     x['A9'] = x['A9'].apply(lambda x: 1 if str(x).strip().lower() in ['always', 'usually', 'sometimes'] else 0)
 
-    x = x.fillna(0)
-    y = y.fillna(0)
+    # Encode & convert all to numeric
+    x = x.apply(pd.to_numeric, errors='coerce')
+    y = pd.to_numeric(y, errors='coerce')
+
+    # Check for NaNs
+    if x.isnull().sum().sum() > 0 or y.isnull().sum() > 0:
+        st.warning("NaN values found in training data. Filling with 0s.")
+        x = x.fillna(0)
+        y = y.fillna(0)
+
+    # Final shape/type check
+    st.write("Training data preview:")
+    st.write(x.head())
+    st.write("Labels preview:", y.unique())
+    st.write("X shape:", x.shape, "| y shape:", y.shape)
 
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(x, y)
+
     return model, feature_cols
+
 
 def convert_answers_to_binary(answers):
     binary_values = []
