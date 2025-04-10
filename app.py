@@ -51,7 +51,8 @@ def plot_qchat_score(score):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("🧠 Toddler ASD Screening (Q-Chat-10 Based)")
+st.title("Austim Spectrum Disorder (ASD) Prediction System")
+st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
 st.write("Answer the following questions to assess ASD traits using the Q-Chat-10 test.")
 
 questions = [
@@ -73,7 +74,7 @@ with st.form("ASD Form"):
     answers = [st.selectbox(q, options, key=i) for i, q in enumerate(questions)]
     jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
     family_asd = st.radio("Is there a family member with ASD?", ['Yes', 'No'])
-    sex = st.radio("Gender of the child:", ['m', 'f'])
+    sex = st.radio("Gender of the child:", ['Male', 'Female'])
     ethnicity = st.text_input("Enter the child's ethnicity:")
     age_mons = st.slider("Age of the child (in months):", 12, 48, 24)
     who_completed = st.selectbox("Who completed the test?", ['Parent', 'Self', 'Health care professional', 'Other'])
@@ -121,4 +122,3 @@ if submitted:
 
     pd.DataFrame([new_entry]).to_csv(DATA_PATH, mode='a', header=False, index=False, encoding='utf-8-sig')
     st.success("📝 Response saved successfully!")
-
