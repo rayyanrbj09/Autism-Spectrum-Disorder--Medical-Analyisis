@@ -103,7 +103,7 @@ if submitted:
     input_df = pd.DataFrame([input_vector], columns=feature_cols)
 
     prediction = model.predict(input_df)[0]
-    result = "YES" if prediction > 5 else "NO"
+    result = "YES" if prediction < 5 else "NO"
     qchat_score = sum(binary_answers)
 
     st.subheader(f"ASD Prediction: **{result}**")
