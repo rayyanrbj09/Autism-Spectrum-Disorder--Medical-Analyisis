@@ -115,10 +115,10 @@ def main():
             'Family_mem_with_ASD': extra_info['family_mem_with_asd'],
             'Age_Mons': extra_info['age_mons'], 'Ethnicity': extra_info['ethnicity'],
             'Who_completed_the_test': extra_info['who_completed'],
-            'Class/ASD Traits ': prediction
+            'Class ASD Traits': prediction
         }
 
-        pd.DataFrame([new_entry]).to_csv(path, mode='a', header=False, index=False)
+        pd.DataFrame([new_entry]).to_csv(path, mode='a', header=False, index=False, encoding='utf-8')
         print(" User data appended successfully.")
 
     except Exception as e:
