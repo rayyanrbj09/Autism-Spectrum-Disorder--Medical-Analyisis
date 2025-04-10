@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from app import RandomForestClassifier, train_test_split, pd
+from train_model import RandomForestClassifier, train_test_split, pd
 
 def test_model_prediction():
     # Sample input  # 13 features

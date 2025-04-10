@@ -34,10 +34,11 @@ def get_user_input():
     ethnicity = str(input("Enter the child's ethnicity: ").strip())
     age_mons = int(input("Enter the child's age in months: ").strip())
     who_completed_test = input("Who completed the test? (Parent/Self/Health care professional/Other): ").strip()
-
+    # Increment Case_No based on the dataset
+    
     extra_info = {
-        'jaundice': jaundice,
-        'family_mem_with_asd': family_mem_with_asd,
+        'jaundice': 'yes' if jaundice == 'yes' else 'no',
+        'family_mem_with_asd': 'yes' if family_mem_with_asd == 'yes' else 'no',
         'sex': 'm' if sex == 'm' else 'f',
         'ethnicity': ethnicity,
         'age_mons': age_mons,
@@ -79,6 +80,7 @@ def main():
         path = r'datasets 1/Toddler Autism dataset July 2018.csv'
         data = pd.read_csv(path)
 
+
         data.columns = [col.strip() for col in data.columns]  # Clean column names
 
         data['Jaundice'] = data['Jaundice'].apply(lambda x: 1 if str(x).strip().lower() == 'yes' else 0)
@@ -111,8 +113,14 @@ def main():
         print(f" Q-Chat-10 Score: {asd_score}")
         plot_asd_inclination(asd_score)
 
+        try:
+                case_no = data['Case_No'].max() + 1
+        except KeyError:
+            case_no = 1  # If Case_No column doesn't exist, start from 1
+
         # Save response
         new_entry = {
+           
             'A1': user_binary[0], 'A2': user_binary[1], 'A3': user_binary[2],
             'A4': user_binary[3], 'A5': user_binary[4], 'A6': user_binary[5],
             'A7': user_binary[6], 'A8': user_binary[7], 'A9': user_binary[8],
@@ -133,4 +141,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-# store jo karna yes and no mein karna 
