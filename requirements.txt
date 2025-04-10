@@ -6,3 +6,4 @@ scikit-learn
 seaborn
 Pyspark_SQL
 streamlit
+ensemble
