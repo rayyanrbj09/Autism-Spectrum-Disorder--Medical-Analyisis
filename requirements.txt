@@ -1,9 +1,7 @@
-Pyspark
-matplotlib
-numpy
-pandas
-scikit-learn
-seaborn
-Pyspark_SQL
 streamlit
-ensemble
+pandas
+numpy
+scikit-learn
+matplotlib
+matplotlib.plyplot
+os
