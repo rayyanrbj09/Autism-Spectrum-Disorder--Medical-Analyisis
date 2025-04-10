@@ -20,9 +20,20 @@ def load_data():
     return data
 
 def train_model(data):
-    feature_cols = ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
-    x = data[feature_cols]
+    feature_cols = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
+    x = data[feature_cols].copy()  # Create a copy to avoid SettingWithCopyWarning
     y = data['Class ASD Traits']
+
+    # Convert A1-A10 to binary based on Q-Chat-10 scoring
+    for col in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A10']:
+        x[col] = x[col].apply(lambda x: 1 if str(x).strip().lower() in ['sometimes', 'rarely', 'never'] else 0)
+    x['A9'] = x['A9'].apply(lambda x: 1 if str(x).strip().lower() in ['always', 'usually', 'sometimes'] else 0)
+
+    # Ensure no missing values
+    x = x.fillna(0)  # Replace NaN with 0 (adjust based on your data's meaning)
+    y = y.fillna(0)
+
+    # Train the model
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(x, y)
     return model, feature_cols
@@ -51,7 +62,7 @@ def plot_qchat_score(score):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("Austim Spectrum Disorder (ASD) Prediction System")
+st.title("Autism Spectrum Disorder (ASD) Prediction System")
 st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
 st.write("Answer the following questions to assess ASD traits using the Q-Chat-10 test.")
 
