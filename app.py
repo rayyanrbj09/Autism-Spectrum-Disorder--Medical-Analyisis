@@ -9,6 +9,7 @@ import os
 st.set_page_config(page_title="ASD Prediction App", layout="centered")
 
 DATA_PATH = 'datasets 1/Toddler Autism dataset July 2018.csv'
+LOG_PATH = 'user_predictions.csv'
 
 @st.cache_data
 def load_data():
@@ -21,19 +22,16 @@ def load_data():
 
 def train_model(data):
     feature_cols = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
-    x = data[feature_cols].copy()  # Create a copy to avoid SettingWithCopyWarning
+    x = data[feature_cols].copy()
     y = data['Class ASD Traits']
 
-    # Convert A1-A10 to binary based on Q-Chat-10 scoring
     for col in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A10']:
         x[col] = x[col].apply(lambda x: 1 if str(x).strip().lower() in ['sometimes', 'rarely', 'never'] else 0)
     x['A9'] = x['A9'].apply(lambda x: 1 if str(x).strip().lower() in ['always', 'usually', 'sometimes'] else 0)
 
-    # Ensure no missing values
-    x = x.fillna(0)  # Replace NaN with 0 (adjust based on your data's meaning)
+    x = x.fillna(0)
     y = y.fillna(0)
 
-    # Train the model
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(x, y)
     return model, feature_cols
@@ -62,9 +60,8 @@ def plot_qchat_score(score):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("Autism Spectrum Disorder (ASD) Prediction System")
+st.title("🧠 Autism Spectrum Disorder (ASD) Prediction System")
 st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
-st.write("Answer the following questions to assess ASD traits using the Q-Chat-10 test.")
 
 questions = [
     "1. Does your child look at you when you call his/her name?",
@@ -109,27 +106,25 @@ if submitted:
     st.write(f"Q-Chat-10 Score: **{qchat_score}**")
     plot_qchat_score(qchat_score)
 
-    # Case number logic
-    try:
-        existing = pd.read_csv(DATA_PATH)
-        case_no = len(existing) + 1
-    except FileNotFoundError:
+    # Save prediction log
+    if os.path.exists(LOG_PATH):
+        case_no = len(pd.read_csv(LOG_PATH)) + 1
+    else:
         case_no = 1
 
-    # Save data
     new_entry = {
         'case_no': case_no,
         'A1': binary_answers[0], 'A2': binary_answers[1], 'A3': binary_answers[2],
         'A4': binary_answers[3], 'A5': binary_answers[4], 'A6': binary_answers[5],
         'A7': binary_answers[6], 'A8': binary_answers[7], 'A9': binary_answers[8],
-        'A10': binary_answers[9], 'Jaundice': jaundice.lower(),
-        'Family_mem_with_ASD': family_asd.lower(), 'Age_Mons': age_mons,
+        'A10': binary_answers[9], 'Jaundice': jaundice_val,
+        'Family_mem_with_ASD': family_asd_val, 'Age_Mons': age_mons,
         'Qchat_10_Score': qchat_score, 'Sex': sex, 'Ethnicity': ethnicity,
-        'Who_completed_the_test': who_completed, 'Class ASD Traits': result
+        'Who_completed_the_test': who_completed, 'Class ASD Traits': 1 if result == "YES" else 0
     }
 
-    if not os.path.exists(DATA_PATH):
-        pd.DataFrame(columns=new_entry.keys()).to_csv(DATA_PATH, index=False, encoding='utf-8-sig')
+    if not os.path.exists(LOG_PATH):
+        pd.DataFrame(columns=new_entry.keys()).to_csv(LOG_PATH, index=False, encoding='utf-8-sig')
 
-    pd.DataFrame([new_entry]).to_csv(DATA_PATH, mode='a', header=False, index=False, encoding='utf-8-sig')
+    pd.DataFrame([new_entry]).to_csv(LOG_PATH, mode='a', header=False, index=False, encoding='utf-8-sig')
     st.success("📝 Response saved successfully!")
