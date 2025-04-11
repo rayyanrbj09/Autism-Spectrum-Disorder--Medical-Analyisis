@@ -68,7 +68,7 @@ def plot_qchat_score(score):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("🧠 Autism Spectrum Disorder (ASD) Prediction System")
+st.title("Autism Spectrum Disorder (ASD) Prediction System")
 st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
 
 questions = [
