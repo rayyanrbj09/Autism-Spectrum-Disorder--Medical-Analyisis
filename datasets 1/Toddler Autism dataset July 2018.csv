@@ -1052,13 +1052,8 @@ Case_No,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,Age_Mons,Qchat-10-Score,Sex,Ethnicity,Jau
 1051,0,0,1,1,1,0,1,0,1,0,12,5,m,black,yes,no,family member,Yes
 1052,1,0,1,1,1,1,1,1,1,1,18,9,m,middle eastern,yes,no,family member,Yes
 1053,1,0,0,0,0,0,0,1,0,1,19,3,m,White European,no,yes,family member,No
-
-0,0,1,1,1,1,0,1,1,1,26,7,f,Native Indian,1,0,Parent,1
-0,0,1,1,1,0,1,0,0,0,32,4,f,USA,1,1,Parent,1
-0,0,1,1,1,1,1,1,0,1,12,7,m,USA,yes,yes,Parent,Yes
-0,0,1,1,1,1,1,1,0,1,12,7,m,USA,yes,yes,Paremt,Yes
-0,0,1,1,1,1,1,1,0,1,12,7,m,Pakistan,yes,yes,Parent,Yes
-1059,1,0,1,1,0,0,1,0,1,0,yes,yes,24,5,m,USA,Parent,YES
-1060,0,0,0,0,0,0,0,0,0,1,yes,yes,24,1,m,,Parent,NO
-1061,0,1,1,0,1,0,0,0,1,0,no,no,29,4,m,,Health care professional,YES
-1062,1,1,1,0,1,1,0,1,1,1,no,yes,24,8,m,Indian,Health care professional,YES
+1054,0,0,1,1,1,1,1,1,0,1,12,7,m,Pakistan,yes,yes,Parent,Yes
+1055,1,0,1,1,0,0,1,0,1,0,yes,yes,24,5,m,USA,Parent,YES
+1056,0,0,0,0,0,0,0,0,0,1,yes,yes,24,1,m,,Parent,NO
+1057,0,1,1,0,1,0,0,0,1,0,no,no,29,4,m,,Health care professional,YES
+1058,1,1,1,0,1,1,0,1,1,1,no,yes,24,8,m,Indian,Health care professional,YES
