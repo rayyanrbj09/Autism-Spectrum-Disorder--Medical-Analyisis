@@ -10,7 +10,7 @@ st.set_page_config(page_title="ASD Prediction App", layout="centered")
 
 # File paths
 DATA_PATH = 'datasets 1/Toddler Autism dataset July 2018.csv'
-LOG_PATH = 'user_predictions.csv'
+LOG_PATH = r'D:\Autism-Spectrum-Disorder--Medical-Analyisis\datasets 1\Toddler Autism dataset July 2018.csv'
 
 # Load data with caching
 @st.cache_data
