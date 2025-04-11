@@ -74,12 +74,12 @@ st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in 
 questions = [
     "1. Does your child look at you when you call his/her name?",
     "2. How easy is it for you to get eye contact with your child?",
-    "3. Does your child point to indicate that s/he wants something?",
+    "3. Does your child point to indicate that he or she  wants something?",
     "4. Does your child point to share interest with you?",
     "5. Does your child pretend?",
     "6. Does your child follow where you’re looking?",
     "7. If someone is visibly upset, does your child show signs of wanting to comfort them?",
-    "8. Would you describe your child’s first words as:",
+    "8. Which of the following best describes your child’s first words?(clear, neutral, and easy to understand)",
     "9. Does your child use simple gestures?",
     "10. Does your child stare at nothing with no apparent purpose?"
 ]
