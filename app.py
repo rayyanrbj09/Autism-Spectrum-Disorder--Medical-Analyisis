@@ -109,11 +109,21 @@ if submitted:
     input_df = pd.DataFrame([input_vector], columns=feature_cols)
 
     qchat_score = sum(binary_answers)
-    result = "YES" if qchat_score >= 4 else "NO"
+    rule_based_result = "YES" if qchat_score >= 4 else "NO"
 
-    st.subheader(f"ASD Prediction: **{result}**")
-    st.write(f"Q-Chat-10 Score: **{qchat_score}**")
+    # ML Prediction
+    ml_pred = model.predict(input_df)[0]
+    ml_result = "YES" if ml_pred == 1 else "NO"
+
+    # Show results
+    st.subheader("🔍 Prediction Results:")
+    st.markdown(f"- **Q-Chat-10 Score**: `{qchat_score}`")
+    st.markdown(f"- **Rule-based Prediction** (score ≥ 4): `{rule_based_result}`")
+    st.markdown(f"- **ML Model Prediction** (Random Forest): `{ml_result}`")
+
+    # Plot the score bar
     plot_qchat_score(qchat_score)
+
 
     # Save to CSV log
     if os.path.exists(LOG_PATH):
@@ -129,7 +139,7 @@ if submitted:
         'A10': binary_answers[9], 'Jaundice': jaundice_val,
         'Family_mem_with_ASD': family_asd_val, 'Age_Mons': age_mons,
         'Qchat_10_Score': qchat_score, 'Sex': sex, 'Ethnicity': ethnicity,
-        'Who_completed_the_test': who_completed, 'Class ASD Traits': 1 if result == "YES" else 0
+        'Who_completed_the_test': who_completed, 'Class ASD Traits': 1 if ml_result == "YES" else 0
     }
 
     if not os.path.exists(LOG_PATH):

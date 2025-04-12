@@ -4,10 +4,10 @@ from train_model import RandomForestClassifier, train_test_split, pd
 
 def test_model_prediction():
     # Sample input  # 13 features
-    sample_input2 = [0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 24]  # Another sample input
+    sample_input = [0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 24]  # Another sample input
     # Feature columns must match training
     feature_cols = ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
-    input_df = pd.DataFrame([sample_input2], columns=feature_cols)
+    input_df = pd.DataFrame([sample_input], columns=feature_cols)
 
     # Train dummy model for test
     data = pd.read_csv(r"D:\Autism-Spectrum-Disorder--Medical-Analyisis\datasets 1\Toddler Autism dataset July 2018.csv")
