@@ -1946,3 +1946,15 @@ DEBUG:root:Attempting to load dataset from: D:\Autism-Spectrum-Disorder--Medical
 DEBUG:root:Dataset loaded successfully
 ERROR:root:Error loading dataset: Can only use .str accessor with string values!
 ERROR:root:Data loading failed
+DEBUG:root:Starting Streamlit app
+DEBUG:root:Rendering initial UI
+DEBUG:root:Loading data
+ERROR:root:Data loading failed
+DEBUG:root:Starting Streamlit app
+DEBUG:root:Rendering initial UI
+DEBUG:root:Loading data
+ERROR:root:Data loading failed
+DEBUG:root:Starting Streamlit app
+DEBUG:root:Rendering initial UI
+DEBUG:root:Loading data
+ERROR:root:Data loading failed
