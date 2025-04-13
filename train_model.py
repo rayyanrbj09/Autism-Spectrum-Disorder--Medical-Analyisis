@@ -35,7 +35,7 @@ def get_user_input():
     age_mons = int(input("Enter the child's age in months: ").strip())
     who_completed_test = input("Who completed the test? (Parent/Self/Health care professional/Other): ").strip()
     # Increment Case_No based on the dataset
-    
+
     extra_info = {
         'jaundice': 'yes' if jaundice == 'yes' else 'no',
         'family_mem_with_asd': 'yes' if family_mem_with_asd == 'yes' else 'no',
@@ -80,7 +80,6 @@ def main():
         path = r'datasets 1/Toddler Autism dataset July 2018.csv'
         data = pd.read_csv(path)
 
-
         data.columns = [col.strip() for col in data.columns]  # Clean column names
 
         data['Jaundice'] = data['Jaundice'].apply(lambda x: 1 if str(x).strip().lower() == 'yes' else 0)
@@ -120,7 +119,6 @@ def main():
 
         # Save response
         new_entry = {
-           
             'A1': user_binary[0], 'A2': user_binary[1], 'A3': user_binary[2],
             'A4': user_binary[3], 'A5': user_binary[4], 'A6': user_binary[5],
             'A7': user_binary[6], 'A8': user_binary[7], 'A9': user_binary[8],
@@ -132,9 +130,9 @@ def main():
             'Who_completed_the_test': extra_info['who_completed'],
             'Class ASD Traits': result
         }
-
+        
         pd.DataFrame([new_entry]).to_csv(path, mode='a', header=False, index=False, encoding='utf-8-sig')
-        print(" User data appended successfully.")
+        print("User data appended successfully.")
 
     except Exception as e:
         print(f" Error: {e}")
