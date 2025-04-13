@@ -68,7 +68,7 @@ def plot_qchat_score(score):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("Autism Spectrum Disorder (ASD) Prediction System for Toddlers ")
+st.title(" 🧠 Autism Spectrum Disorder (ASD) Prediction System for Toddlers ")
 st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
 st.write("Note: This is a research project and not a medical diagnosis tool.")
 st.write("Please fill out the form below to get predictions.")
@@ -81,7 +81,7 @@ questions = [
     "5. Does your child pretend?",
     "6. Does your child follow where you’re looking?",
     "7. If someone is visibly upset, does your child show signs of wanting to comfort them?",
-    "8. Which of the following best describes your child’s first words?(clear, neutral, and easy to understand)",
+    "8. How a child is replying when he/she is ask for tell a new word, Does he/she understand and repeat the words or stay quiet?",
     "9. Does your child use simple gestures?",
     "10. Does your child stare at nothing with no apparent purpose?"
 ]
