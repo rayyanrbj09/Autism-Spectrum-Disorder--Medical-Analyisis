@@ -1,151 +1,118 @@
+# main.py
 import streamlit as st
+import logging
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier
-import os
 
-# Page config
-st.set_page_config(page_title="ASD Prediction App", layout="centered")
+logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
+logging.debug("Starting Streamlit app")
 
-# File paths
-DATA_PATH = 'datasets 1/Toddler Autism dataset July 2018.csv'
-LOG_PATH = r'D:\Autism-Spectrum-Disorder--Medical-Analyisis\datasets 1\Toddler Autism dataset July 2018.csv'
+try:
+    from data_loader import load_data
+    from model_trainer import train_model
+    from predictor import make_prediction
+    from visualizer import plot_qchat_score
+    from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
+except ImportError as e:
+    logging.error(f"Import error: {e}")
+    st.error(f"Failed to import modules: {e}")
+    st.stop()
 
-# Load data with caching
-@st.cache_data
-def load_data():
-    data = pd.read_csv(DATA_PATH)
-    data.columns = [col.strip() for col in data.columns]
-    data['Jaundice'] = data['Jaundice'].apply(lambda x: 1 if str(x).strip().lower() == 'yes' else 0)
-    data['Family_mem_with_ASD'] = data['Family_mem_with_ASD'].apply(lambda x: 1 if str(x).strip().lower() == 'yes' else 0)
-    data['Class ASD Traits'] = data['Class ASD Traits'].apply(lambda x: 1 if str(x).strip().upper() == 'YES' else 0)
-    return data
+st.set_page_config(page_title="ASD Prediction", layout="centered")
 
-# Train RandomForest model
-def train_model(data):
-    feature_cols = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'Jaundice', 'Family_mem_with_ASD', 'Age_Mons']
-    x = data[feature_cols].copy()
-    y = data['Class ASD Traits'].copy()
+try:
+    logging.debug("Rendering initial UI")
+    st.title("🧠 Autism Spectrum Disorder (ASD) Prediction App")
+    st.write("This app uses Q-Chat-10 screening and a machine learning model to predict ASD likelihood in toddlers.")
+    st.markdown("**Disclaimer**: This tool provides an estimate based on Q-Chat-10 and machine learning. Consult a healthcare professional for a formal diagnosis.")
 
-    # Convert Q-Chat responses to binary
-    for col in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A10']:
-        x[col] = x[col].apply(lambda x: 1 if str(x).strip().lower() in ['sometimes', 'rarely', 'never'] else 0)
-    x['A9'] = x['A9'].apply(lambda x: 1 if str(x).strip().lower() in ['always', 'usually', 'sometimes'] else 0)
+    logging.debug("Loading data")
+    @st.cache_data
+    def cached_load_data():
+        return load_data()
 
-    # Handle missing values
-    x = x.apply(pd.to_numeric, errors='coerce').fillna(0)
-    y = pd.to_numeric(y, errors='coerce').fillna(0)
+    df = cached_load_data()
+    if df is None:
+        logging.error("Data loading failed")
+        st.error("Failed to load dataset. Please check the file path and try again.")
+        st.stop()
 
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(x, y)
+    logging.debug("Loading or training model")
+    @st.cache_resource
+    def cached_train_model(data):
+        return train_model(data)
 
-    return model, feature_cols
+    model = cached_train_model(df)
+    if model is None:
+        logging.error("Model training/loading failed")
+        st.error("Failed to load or train model. Check logs for details.")
+        st.stop()
 
-# Convert form answers to binary
-def convert_answers_to_binary(answers):
-    binary_values = []
-    for i, answer in enumerate(answers):
-        answer = answer.lower()
-        if i == 9:  # A10
-            binary_values.append(1 if answer in ['always', 'usually', 'sometimes'] else 0)
-        else:
-            binary_values.append(1 if answer in ['sometimes', 'rarely', 'never'] else 0)
-    return binary_values
+    logging.debug("Rendering form")
+    with st.form("ASD Form"):
+        answers = [st.selectbox(q, [''] + OPTIONS, key=f"q{i}", index=0) for i, q in enumerate(QUESTIONS)]
+        jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
+        family_asd = st.radio("Is there a family member with ASD?", ['Yes', 'No'])
+        age_mons = st.slider("Age of child (months):", 12, 48, 24)
+        Sex = st.radio('Gender of the toddler', ['m','f'])
+        Ethnicity = st.text_input('Enter the Ethnicity of the toddler')
+        Who_completed_the_test = st.selectbox("Who completed the test?", ['Mother','Parent', 'Health Care Professional', 'Family member'], index=0)
+        submitted = st.form_submit_button("Submit")       
 
-# Plot Q-Chat score visualization
-def plot_qchat_score(score):
-    fig, ax = plt.subplots(figsize=(8, 1.5))
-    colors = ['green' if i <= 3 else 'orange' if i <= 6 else 'red' for i in range(11)]
-    for i in range(11):
-        ax.barh(0, 1, left=i, color=colors[i])
-    ax.axvline(score, color='blue', linestyle='--', linewidth=2, label=f'Score: {score}')
-    ax.set_yticks([])
-    ax.set_xticks(range(11))
-    ax.set_title('ASD Trait Inclination Based on Q-Chat-10')
-    ax.set_xlabel('Score (0–10)')
-    ax.legend()
-    st.pyplot(fig)
+    if submitted:
+        logging.debug("Form submitted")
+        if '' in answers:
+            logging.warning("Incomplete form submission")
+            st.error("Please answer all questions.")
+            st.stop()
 
-# Streamlit UI
-st.title(" 🧠 Autism Spectrum Disorder (ASD) Prediction System for Toddlers ")
-st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
-st.write("Note: This is a research project and not a medical diagnosis tool.")
-st.write("Please fill out the form below to get predictions.")
+        qchat_score, ml_result, proba, binary_answers = make_prediction(
+            model, answers, jaundice, family_asd, age_mons, FEATURE_COLS, QCHAT_THRESHOLD
+        )
 
-questions = [
-    "1. Does your child look at you when you call his/her name?",
-    "2. How easy is it for you to get eye contact with your child?",
-    "3. Does your child point to indicate that he or she  wants something?",
-    "4. Does your child point to share interest with you?",
-    "5. Does your child pretend?",
-    "6. Does your child follow where you’re looking?",
-    "7. If someone is visibly upset, does your child show signs of wanting to comfort them?",
-    "8. How a child is replying when he/she is ask for tell a new word, Does he/she understand and repeat the words or stay quiet?",
-    "9. Does your child use simple gestures?",
-    "10. Does your child stare at nothing with no apparent purpose?"
-]
+        if qchat_score is None:
+            logging.error("Prediction failed")
+            st.error("Prediction failed. Check logs for details.")
+            st.stop()
 
-options = ['Always', 'Usually', 'Sometimes', 'Rarely', 'Never']
+        st.subheader("🔍 Results:")
+        st.markdown(f"- **Q-Chat-10 Score**: `{qchat_score}`")
+        st.markdown(f"- **ML Prediction (Random Forest)**: `{ml_result}`")
+        st.markdown(f"- **Model Confidence (Prob of ASD)**: `{proba:.2f}`")
 
-# User form
-with st.form("ASD Form"):
-    answers = [st.selectbox(q, options, key=i) for i, q in enumerate(questions)]
-    jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
-    family_asd = st.radio("Is there a family member with ASD?", ['Yes', 'No'])
-    sex = st.radio("Gender of the child:", ['Male', 'Female'])
-    ethnicity = st.text_input("Enter the child's ethnicity:")
-    age_mons = st.slider("Age of the child (in months):", 12, 48, 24)
-    who_completed = st.selectbox("Who completed the test?", ['Parent', 'Self', 'Health care professional', 'Other'])
-    submitted = st.form_submit_button("Predict")
+        plot_qchat_score(qchat_score)
 
-# Prediction logic
-if submitted:
-    data = load_data()
-    model, feature_cols = train_model(data)
-    binary_answers = convert_answers_to_binary(answers)
-    jaundice_val = 1 if jaundice.lower() == 'yes' else 0
-    family_asd_val = 1 if family_asd.lower() == 'yes' else 0
+        # Create new row with user input and prediction
+        new_row = {
+            'A1': binary_answers[0],
+            'A2': binary_answers[1],
+            'A3': binary_answers[2],
+            'A4': binary_answers[3],
+            'A5': binary_answers[4],
+            'A6': binary_answers[5],
+            'A7': binary_answers[6],
+            'A8': binary_answers[7],
+            'A9': binary_answers[8],
+            'A10': binary_answers[9],
+            'Qchat-10-Score': qchat_score,
+            'Age_Mons': age_mons,
+            'Sex': Sex,
+            'Ethnicity' : Ethnicity,
+            'Jaundice': 1 if jaundice.lower() == 'yes' else 0,
+            'Family_mem_with_ASD': 1 if family_asd.lower() == 'yes' else 0,
+            'Who_completed_the_test': Who_completed_the_test,
+            'Class ASD Traits': 1 if ml_result == "YES" else 0
+        }
 
-    input_vector = binary_answers + [jaundice_val, family_asd_val, age_mons]
-    input_df = pd.DataFrame([input_vector], columns=feature_cols)
+        # Append new row to the dataset
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-    qchat_score = sum(binary_answers)
-    rule_based_result = "YES" if qchat_score >= 4 else "NO"
+        # Save the updated dataset
+        try:
+            df.to_csv(DATA_PATH, index=False)
+            st.success("Dataset updated successfully with your input!")
+        except Exception as e:
+            st.error(f"Failed to update dataset: {e}")
 
-    # ML Prediction
-    ml_pred = model.predict(input_df)[0]
-    ml_result = "YES" if ml_pred == 1 else "NO"
-
-    # Show results
-    st.subheader("🔍 Prediction Results:")
-    st.markdown(f"- **Q-Chat-10 Score**: `{qchat_score}`")
-    st.markdown(f"- **Rule-based Prediction** (score ≥ 4): `{rule_based_result}`")
-    st.markdown(f"- **ML Model Prediction** (Random Forest): `{ml_result}`")
-
-    # Plot the score bar
-    plot_qchat_score(qchat_score)
-
-    # Save to CSV log
-    if os.path.exists(LOG_PATH):
-        case_no = len(pd.read_csv(LOG_PATH)) + 1
-    else:
-        case_no = 1
-
-    new_entry = {
-        'case_no': case_no,
-        'A1': binary_answers[0], 'A2': binary_answers[1], 'A3': binary_answers[2],
-        'A4': binary_answers[3], 'A5': binary_answers[4], 'A6': binary_answers[5],
-        'A7': binary_answers[6], 'A8': binary_answers[7], 'A9': binary_answers[8],
-        'A10': binary_answers[9], 'Jaundice': jaundice_val,
-        'Family_mem_with_ASD': family_asd_val, 'Age_Mons': age_mons,
-        'Qchat_10_Score': qchat_score, 'Sex': sex, 'Ethnicity': ethnicity,
-        'Who_completed_the_test': who_completed, 'Class ASD Traits': 1 if ml_result == "YES" else 0
-    }
-
-    if not os.path.exists(LOG_PATH):
-        pd.DataFrame(columns=new_entry.keys()).to_csv(LOG_PATH, index=False, encoding='utf-8-sig')
-
-    pd.DataFrame([new_entry]).to_csv(LOG_PATH, mode='a', header=False, index=False, encoding='utf-8-sig')
-
-    
+except Exception as e:
+    logging.error(f"Unexpected error: {e}")
+    st.error(f"An unexpected error occurred: {e}")
