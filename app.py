@@ -124,7 +124,6 @@ if submitted:
     # Plot the score bar
     plot_qchat_score(qchat_score)
 
-
     # Save to CSV log
     if os.path.exists(LOG_PATH):
         case_no = len(pd.read_csv(LOG_PATH)) + 1
