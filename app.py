@@ -68,8 +68,10 @@ def plot_qchat_score(score):
     st.pyplot(fig)
 
 # Streamlit UI
-st.title("Autism Spectrum Disorder (ASD) Prediction System")
+st.title("Autism Spectrum Disorder (ASD) Prediction System for Toddlers ")
 st.write("This app predicts the likelihood of Autism Spectrum Disorder (ASD) in children using the Q-Chat-10 test.")
+st.write("Note: This is a research project and not a medical diagnosis tool.")
+st.write("Please fill out the form below to get predictions.")
 
 questions = [
     "1. Does your child look at you when you call his/her name?",
