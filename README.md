@@ -106,16 +106,16 @@ The total score ranges from 0 to 10.
 
 ## Interpretation:
 ## Total Score	Screening Outcome
--- 0 – 2	Negative screen – Low likelihood of autism
--- ≥ 3	Positive screen – Elevated likelihood of autism; further evaluation recommended
--- ⚠️ Important: The Q-CHAT-10 is a screening tool, not a diagnostic test. A score of 3 or more indicates that the child may benefit from a comprehensive diagnostic assessment by a qualified healthcare professional.
+- 0 – 2	Negative screen – Low likelihood of autism
+- ≥ 3	Positive screen – Elevated likelihood of autism; further evaluation recommended
+- ⚠️ Important: The Q-CHAT-10 is a screening tool, not a diagnostic test. A score of 3 or more indicates that the child may benefit from a comprehensive diagnostic assessment by a qualified healthcare professional.
 
 ## Usage Notes:
--- Best suited for toddlers aged 18–30 months.
+- Best suited for toddlers aged 18–30 months.
 
--- Designed for early identification of social-communication difficulties and repetitive behaviors.
+- Designed for early identification of social-communication difficulties and repetitive behaviors.
 
--- Can be used in clinical settings, research, or community-based screening programs.
+- Can be used in clinical settings, research, or community-based screening programs.
 
 ## From the Heat-Map that was generated the insgihts that was found useful are :
 
