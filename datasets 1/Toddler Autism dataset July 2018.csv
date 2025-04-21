@@ -1054,4 +1054,5 @@ Case_No,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,Age_Mons,Qchat-10-Score,Sex,Ethnicity,Jau
 1053.0,1,0,0,0,0,0,0,1,0,1,19,3,m,White European,0,1,family member,0
 1054.0,0,0,1,1,1,1,1,1,0,1,12,7,m,Pakistan,1,1,Parent,1
 1055.0,1,0,1,1,0,0,1,0,1,0,yes,yes,24,5,0,0,Parent,1
-,0,1,0,1,1,1,0,1,0,1,24,6,m,USA,0,1,Family member,1
+1056.0,1,0,1,1,1,0,1,0,1,24,6,m,USA,0,1,Family member,1
+1057.1,1,0,0,1,1,0,0,1,0,20,5,m,native indian,1,1,Family member,1

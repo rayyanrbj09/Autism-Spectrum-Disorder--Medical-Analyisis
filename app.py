@@ -109,7 +109,7 @@ try:
         # Save the updated dataset
         try:
             df.to_csv(DATA_PATH, index=False)
-            st.success("Dataset updated successfully with your input!")
+            st.success("Report Generated Sucessfully!")
         except Exception as e:
             st.error(f"Failed to update dataset: {e}")
 
