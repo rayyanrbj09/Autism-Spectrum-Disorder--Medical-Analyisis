@@ -11,6 +11,11 @@ from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
+user_info = st.session_state.user_info if st.session_state.logged_in else {}
+user_email = user_info.get("email", "")
+user_name = user_info.get("name", "User")
+user_password = user_info.get("password", "")
+
 # --- Manual Login Function ---
 def manual_login():
     with st.sidebar:
@@ -18,7 +23,7 @@ def manual_login():
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
         if st.button("Login"):
-            if username == "admin" and password == "12345":
+            if username == user_email and password == user_password:
                 return {"name": "Admin User", "email": "admin@example.com"}
             else:
                 st.error("Invalid username or password.")
@@ -49,9 +54,7 @@ with col3:
             st.warning("Please log in to generate a report.")
         st.session_state.trigger_report = True
 
-user_info = st.session_state.user_info if st.session_state.logged_in else {}
-user_email = user_info.get("email", "")
-user_name = user_info.get("name", "User")
+
 
 # --- App Header ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
