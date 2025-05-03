@@ -12,6 +12,8 @@ from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
+client_secrets_file = os.getenv("CLIENT_SECRET_PATH", "client_secrets.json")
+
 # Initialize session state
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False

@@ -14,20 +14,23 @@ def login_user():
     flow = Flow.from_client_secrets_file(
         client_secrets_file=client_secrets_file,
         scopes=["openid", "email", "profile"],
-        redirect_uri="http://localhost:8501"  # update this if deployed
+        redirect_uri="https://autism-spectrum-disorder--medical-analyisis.streamlit.app/"  # update this if deployed
     )
 
     auth_url, _ = flow.authorization_url(prompt='consent')
     st.sidebar.markdown("[Login with Google](%s)" % auth_url)
 
-    query_params = st.query_params
+    query_params = st.experimental_get_query_params()
     if "code" in query_params:
-        flow.fetch_token(code=query_params["code"])
+        flow.fetch_token(code=query_params["code"][0])  # get first item in list
         credentials = flow.credentials
         request = google.auth.transport.requests.Request()
-        id_info = id_token.verify_oauth2_token(credentials.id_token, request, flow.client_config["client_id"])
+        id_info = id_token.verify_oauth2_token(
+            credentials.id_token,
+            request,
+            flow.client_config["client_id"]
+        )
         user_info = {"name": id_info["name"], "email": id_info["email"]}
         st.session_state["user_info"] = user_info
         return user_info
 
-    return None
