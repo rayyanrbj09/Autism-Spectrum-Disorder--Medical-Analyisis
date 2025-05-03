@@ -19,22 +19,7 @@ if "user_info" not in st.session_state:
 if "trigger_report" not in st.session_state:
     st.session_state.trigger_report = False
 
-# --- Manual Login Handling ---
-if not st.session_state.logged_in:
-    user_info = manual_login()
-    if user_info:
-        st.session_state.logged_in = True
-        st.session_state.user_info = user_info
-        st.success(f"Logged in as {user_info.get('email')}")
 
-# --- UI Buttons ---
-col1, col2, col3 = st.columns([6, 1, 1])
-
-with col3:
-    if st.button("Report"):
-        if not st.session_state.logged_in:
-            st.warning("Please log in to generate a report.")
-        st.session_state.trigger_report = True
 
 
 user_info = st.session_state.user_info if st.session_state.logged_in else {}
@@ -55,6 +40,22 @@ def manual_login():
                 st.error("Invalid username or password.")
     return None
 
+# --- Manual Login Handling ---
+if not st.session_state.logged_in:
+    user_info = manual_login()
+    if user_info:
+        st.session_state.logged_in = True
+        st.session_state.user_info = user_info
+        st.success(f"Logged in as {user_info.get('email')}")
+
+# --- UI Buttons ---
+col1, col2, col3 = st.columns([6, 1, 1])
+
+with col3:
+    if st.button("Report"):
+        if not st.session_state.logged_in:
+            st.warning("Please log in to generate a report.")
+        st.session_state.trigger_report = True
 
 # --- App Header ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
