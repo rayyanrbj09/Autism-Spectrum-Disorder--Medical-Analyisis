@@ -1,0 +1,11 @@
+credentials:
+  usernames:
+    testuser:
+      email: testuser@example.com
+      name: Test User
+      password: 'pbkdf2:sha256:260000$XXXXXX...'  # use stauth.Hasher(['pass']).generate()
+
+cookie:
+  name: asd_app
+  key: some_signature_key
+  expiry_days: 30

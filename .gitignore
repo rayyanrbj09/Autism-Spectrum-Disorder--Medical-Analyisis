@@ -1,0 +1,15 @@
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+venv/
+.env
+
+# Ignore any log files
+*.log
+
+# env files to be ignored
+.env
+.venv
+.gitattributes
