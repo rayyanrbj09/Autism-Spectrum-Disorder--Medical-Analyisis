@@ -17,3 +17,5 @@ venv/
 # screts
 client_secret.json
 .streamlit/secrets.toml
+
+asd_app.log

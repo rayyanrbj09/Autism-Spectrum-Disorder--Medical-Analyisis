@@ -20,8 +20,11 @@ def generate_pdf_report(data):
             pdf.cell(200, 10, txt=f"{key.capitalize()}: {value}", ln=1, align='L')
 
         # Safely handle filename (email may be missing)
-        email_part = data.get('email', 'unknown_user').split('@')[0]
-        filename = f"asd_report_{email_part}.pdf"
+        raw_email = data.get('email', 'unknown_user')
+        safe_email_part = raw_email.replace('@', '_').replace('/', '_').replace('\\', '_').replace(':', '_')
+        if not safe_email_part or safe_email_part.lower() == "n/a":
+            safe_email_part = "anonymous"
+        filename = f"asd_report_{safe_email_part}.pdf"
 
         output_dir = "reports"
         os.makedirs(output_dir, exist_ok=True)

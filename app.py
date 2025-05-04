@@ -76,13 +76,12 @@ if submitted:
 
             try:
                 pdf_path = generate_pdf_report(result_data)
-                with open(pdf_path, "rb") as f:
-                    st.download_button(
-                        label="📄 Download PDF Report",
-                        data=f,
-                        file_name=os.path.basename(pdf_path),
-                        mime="application/pdf"
-                    )
+                pdf_path = generate_pdf_report(result_data)
+                if pdf_path:
+                    st.success(f"✅ Report generated: {pdf_path}")
+                else:
+                    st.error("❌ Failed to generate report. Check logs.")
+
                 logging.info("PDF report successfully generated and offered for download.")
             except Exception as e:
                 logging.error(f"Failed to generate or offer PDF: {e}")
