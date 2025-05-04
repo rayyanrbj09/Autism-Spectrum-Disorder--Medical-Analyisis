@@ -41,7 +41,9 @@ if not st.session_state.logged_in:
         key="google_login",
     )
     if result:
-        user_info = google.get_user_info(result['access_token'], "https://www.googleapis.com/oauth2/v3/userinfo")
+        userinfo_response = google.get("https://www.googleapis.com/oauth2/v3/userinfo", token=result)
+        user_info = userinfo_response.json()
+
         st.session_state.logged_in = True
         st.session_state.user_info = user_info
         st.success(f"Logged in as {user_info.get('email')}")
