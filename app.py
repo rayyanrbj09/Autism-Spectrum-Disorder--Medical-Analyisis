@@ -2,19 +2,16 @@ import streamlit as st
 import logging
 import os
 from datetime import datetime
-from auth import login_user
 from report_generator import generate_pdf_report, send_email_with_report
 from data_loader import load_data
-from model_trainer import train_model  # Ensure this import is correct
+from model_trainer import train_model
 from predictor import make_prediction
 from visualizer import plot_qchat_score
 from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
-client_secrets_file = os.getenv("CLIENT_SECRET_PATH", "client_secrets.json")
-
-# Initialize session state
+# --- Session State Initialization ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
@@ -22,40 +19,50 @@ if "user_info" not in st.session_state:
 if "trigger_report" not in st.session_state:
     st.session_state.trigger_report = False
 
-# --- UI Buttons on the Right ---
-col1, col2, col3 = st.columns([6, 1, 1])
 
-with col2:
-    if not st.session_state.logged_in:
+
+
+user_info = st.session_state.user_info if st.session_state.logged_in else {}
+user_email = user_info.get("email", "")
+user_name = user_info.get("name", "User")
+user_password = user_info.get("password", "")
+
+# --- Manual Login Function ---
+def manual_login():
+    with st.sidebar:
+        st.subheader("Login")
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
         if st.button("Login"):
-            user_info = login_user()
-            if user_info:
-                st.session_state.logged_in = True
-                st.session_state.user_info = user_info
-                st.success(f"Logged in as {user_info.get('email')}")
+            if username == user_email and password == user_password:
+                return {"name": "Admin User", "email": "admin@example.com"}
             else:
-                st.error("Login failed. Try again.")
+                st.error("Invalid username or password.")
+    return None
+
+# --- Manual Login Handling ---
+if not st.session_state.logged_in:
+    user_info = manual_login()
+    if user_info:
+        st.session_state.logged_in = True
+        st.session_state.user_info = user_info
+        st.success(f"Logged in as {user_info.get('email')}")
+
+# --- UI Buttons ---
+col1, col2, col3 = st.columns([6, 1, 1])
 
 with col3:
     if st.button("Report"):
         if not st.session_state.logged_in:
-            st.warning("login for report")
-            st.session_state.trigger_report = True
-        else:
-            st.session_state.trigger_report = True
+            st.warning("Please log in to generate a report.")
+        st.session_state.trigger_report = True
 
-# Extract user info safely
-user_info = st.session_state.user_info if st.session_state.logged_in else {}
-user_email = user_info.get("email", "")
-user_name = user_info.get("name", "User")
-
-# --- Main App Content ---
+# --- App Header ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
 st.write("This app predicts the likelihood of ASD based on Q-CHAT-10 responses. It also generates reports if you're logged in.")
 st.markdown("---")
 
-# Load data and model
-logging.debug("Loading data")
+# --- Load Data and Train Model ---
 @st.cache_data
 def cached_load_data():
     return load_data()
@@ -63,10 +70,9 @@ def cached_load_data():
 df = cached_load_data()
 if df is None:
     logging.error("Data loading failed")
-    st.error("Failed to load dataset. Please check the file path and try again.")
+    st.error("Failed to load dataset.")
     st.stop()
 
-logging.debug("Loading or training model")
 @st.cache_resource
 def cached_train_model(data):
     return train_model(data)
@@ -74,15 +80,14 @@ def cached_train_model(data):
 model = cached_train_model(df)
 if model is None:
     logging.error("Model training/loading failed")
-    st.error("Failed to load or train model. Check logs for details.")
+    st.error("Failed to load or train model.")
     st.stop()
 
-# Only show previous reports if logged in
+# --- Display Previous Reports ---
 if st.session_state.logged_in:
     user_reports_dir = os.path.join("user_reports", user_email)
     os.makedirs(user_reports_dir, exist_ok=True)
     existing_reports = [f for f in os.listdir(user_reports_dir) if f.endswith(".pdf")]
-
     if existing_reports:
         st.subheader("📄 Your Past Reports")
         for rep in existing_reports:
@@ -91,7 +96,7 @@ if st.session_state.logged_in:
     else:
         st.info("No previous reports found.")
 
-# --- Form for ASD Prediction ---
+# --- ASD Prediction Form ---
 with st.form("ASD Form"):
     answers = [st.selectbox(q, [''] + OPTIONS, key=f"q{i}", index=0) for i, q in enumerate(QUESTIONS)]
     jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
@@ -102,6 +107,7 @@ with st.form("ASD Form"):
     Who_completed_the_test = st.selectbox("Who completed the test?", ['Mother', 'Parent', 'Health Care Professional', 'Family member'], index=0)
     submitted = st.form_submit_button("Submit")
 
+# --- On Submission ---
 if submitted:
     if '' in answers:
         st.error("Please answer all questions.")
@@ -144,4 +150,6 @@ if submitted:
         except Exception as e:
             st.error(f"Error generating or sending report: {e}")
     else:
-        st.warning("Please login to save or send the report.")
+        st.warning("Please log in to save or send the report.")
+
+   
