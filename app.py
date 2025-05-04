@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_oauth import OAuth2Component
+import requests
 import logging
 import os
 from datetime import datetime
@@ -10,47 +11,60 @@ from predictor import make_prediction
 from visualizer import plot_qchat_score
 from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
-# Initialize logging
+# --- Logging setup ---
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
-# OAuth credentials from Streamlit secrets
+# --- OAuth2 Setup ---
 redirect_uri = st.secrets["GOOGLE_REDIRECT_URI"]
 client_id = st.secrets["GOOGLE_CLIENT_ID"]
 client_secret = st.secrets["GOOGLE_CLIENT_SECRET"]
 
-# Initialize the OAuth component
-google = OAuth2Component(
-    client_id=client_id,
-    client_secret=client_secret,
-)
+google = OAuth2Component(client_id=client_id, client_secret=client_secret)
 
-# --- Session State Initialization ---
+# --- Session State ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
     st.session_state.user_info = None
 
 # --- Login Flow ---
-# --- Login Flow ---
 if not st.session_state.logged_in:
     result = google.authorize_button(
         name="Continue with Google",
         icon="🔐",
         redirect_uri=redirect_uri,
-        scope=" ".join(["openid", "email", "profile"]),  # Fixed scope here
+        scope="openid email profile",
         key="google_login",
     )
-    if result:
-        userinfo_response = google.get("https://www.googleapis.com/oauth2/v3/userinfo", token=result)
-        user_info = userinfo_response.json()
 
-        st.session_state.logged_in = True
-        st.session_state.user_info = user_info
-        st.success(f"Logged in as {user_info.get('email')}")
+    if result:
+        try:
+            access_token = result.get("access_token")
+            if not access_token:
+                st.error("Access token not found in OAuth result.")
+                st.stop()
+
+            headers = {"Authorization": f"Bearer {access_token}"}
+            userinfo_response = requests.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo", headers=headers
+            )
+
+            if userinfo_response.ok:
+                user_info = userinfo_response.json()
+                st.session_state.logged_in = True
+                st.session_state.user_info = user_info
+                st.success(f"Logged in as {user_info.get('email')}")
+            else:
+                st.error("Failed to fetch user info from Google.")
+                st.stop()
+
+        except Exception as e:
+            st.error(f"OAuth error: {e}")
+            st.stop()
 else:
     st.write(f"Welcome, {st.session_state.user_info.get('name', 'User')}!")
 
-# --- App Content ---
+# --- Title and Introduction ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
 st.write("This app predicts the likelihood of ASD based on Q-CHAT-10 responses. It also generates reports if you're logged in.")
 st.markdown("---")
@@ -84,7 +98,11 @@ with st.form("ASD Form"):
     age_mons = st.slider("Age of child (months):", 12, 48, 24)
     Sex = st.radio('Gender of the toddler', ['m', 'f'])
     Ethnicity = st.text_input('Enter the Ethnicity of the toddler')
-    Who_completed_the_test = st.selectbox("Who completed the test?", ['Mother', 'Parent', 'Health Care Professional', 'Family member'], index=0)
+    Who_completed_the_test = st.selectbox(
+        "Who completed the test?",
+        ['Mother', 'Parent', 'Health Care Professional', 'Family member'],
+        index=0
+    )
     submitted = st.form_submit_button("Submit")
 
 # --- On Form Submission ---
@@ -102,7 +120,6 @@ if submitted:
     st.markdown(f"- **Prediction**: {ml_result}")
     plot_qchat_score(qchat_score)
 
-    # If logged in, allow report generation
     if st.session_state.logged_in:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         result_data = {
@@ -132,5 +149,3 @@ if submitted:
             st.error(f"Error generating or sending report: {e}")
     else:
         st.warning("Please log in to save or send the report.")
-
-
