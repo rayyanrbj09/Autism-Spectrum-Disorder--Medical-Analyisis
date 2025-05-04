@@ -1743,3 +1743,35 @@ Traceback (most recent call last):
       ^^^^^^^^^^^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: 'reports\\asd_report_N/A.pdf'
 2025-05-04 18:49:32,336 - INFO - PDF report successfully generated and offered for download.
+2025-05-04 18:59:11,677 - DEBUG - Attempting to load dataset from: datasets 1/Toddler Autism dataset July 2018.csv
+2025-05-04 18:59:11,685 - DEBUG - Dataset loaded successfully
+2025-05-04 18:59:11,689 - DEBUG - Dataset preprocessed successfully
+2025-05-04 18:59:34,475 - DEBUG - Attempting to load dataset from: datasets 1/Toddler Autism dataset July 2018.csv
+2025-05-04 18:59:34,475 - DEBUG - Dataset loaded successfully
+2025-05-04 18:59:34,475 - DEBUG - Dataset preprocessed successfully
+2025-05-04 18:59:34,550 - DEBUG - Rendering Q-Chat score plot
+2025-05-04 18:59:34,666 - DEBUG - STREAM b'IHDR' 16 13
+2025-05-04 18:59:34,666 - DEBUG - STREAM b'tEXt' 41 58
+2025-05-04 18:59:34,667 - DEBUG - STREAM b'pHYs' 111 9
+2025-05-04 18:59:34,667 - DEBUG - STREAM b'IDAT' 132 16626
+2025-05-04 18:59:34,667 - DEBUG - Plot rendered successfully
+2025-05-04 18:59:34,671 - INFO - Report generated: reports\asd_report_N_A.pdf
+2025-05-04 18:59:34,673 - INFO - Report generated: reports\asd_report_N_A.pdf
+2025-05-04 18:59:34,674 - INFO - PDF report successfully generated and offered for download.
+2025-05-04 19:02:01,840 - DEBUG - Attempting to load dataset from: datasets 1/Toddler Autism dataset July 2018.csv
+2025-05-04 19:02:01,849 - DEBUG - Dataset loaded successfully
+2025-05-04 19:02:01,852 - DEBUG - Dataset preprocessed successfully
+2025-05-04 19:02:24,459 - DEBUG - Attempting to load dataset from: datasets 1/Toddler Autism dataset July 2018.csv
+2025-05-04 19:02:24,466 - DEBUG - Dataset loaded successfully
+2025-05-04 19:02:24,468 - DEBUG - Dataset preprocessed successfully
+2025-05-04 19:02:24,523 - DEBUG - Rendering Q-Chat score plot
+2025-05-04 19:02:24,635 - DEBUG - STREAM b'IHDR' 16 13
+2025-05-04 19:02:24,635 - DEBUG - STREAM b'tEXt' 41 58
+2025-05-04 19:02:24,636 - DEBUG - STREAM b'pHYs' 111 9
+2025-05-04 19:02:24,636 - DEBUG - STREAM b'IDAT' 132 16556
+2025-05-04 19:02:24,636 - DEBUG - Plot rendered successfully
+2025-05-04 19:02:24,641 - INFO - Report generated: reports\asd_report_anonymous_example.com.pdf
+2025-05-04 19:02:24,676 - INFO - PDF report generated: reports\asd_report_anonymous_example.com.pdf
+2025-05-04 19:02:26,763 - DEBUG - Attempting to load dataset from: datasets 1/Toddler Autism dataset July 2018.csv
+2025-05-04 19:02:26,778 - DEBUG - Dataset loaded successfully
+2025-05-04 19:02:26,792 - DEBUG - Dataset preprocessed successfully
