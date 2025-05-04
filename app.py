@@ -32,6 +32,7 @@ if "user_info" not in st.session_state:
     st.session_state.user_info = None
 
 # --- Login Flow ---
+
 if not st.session_state.logged_in:
     result = google.authorize_button(
         name="Continue with Google",
