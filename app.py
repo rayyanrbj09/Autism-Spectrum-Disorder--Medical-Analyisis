@@ -13,7 +13,7 @@ from visualizer import plot_qchat_score
 from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
 # Initialize logging
-logging.basicBasic(filename='asd_app.log', level=logging.DEBUG)
+logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
 # OAuth credentials from Streamlit secrets
 redirect_uri = st.secrets["GOOGLE_REDIRECT_URI"]
