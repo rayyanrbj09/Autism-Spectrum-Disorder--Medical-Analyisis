@@ -3,8 +3,8 @@ import requests
 from streamlit_oauth import OAuth2Component
 import logging
 import os
+import asyncio
 from datetime import datetime
-import uuid
 from report_generator import generate_pdf_report, send_email_with_report
 from data_loader import load_data
 from model_trainer import train_model
@@ -13,7 +13,7 @@ from visualizer import plot_qchat_score
 from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
 # Initialize logging
-logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
+logging.basicBasic(filename='asd_app.log', level=logging.DEBUG)
 
 # OAuth credentials from Streamlit secrets
 redirect_uri = st.secrets["GOOGLE_REDIRECT_URI"]
@@ -31,8 +31,6 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
     st.session_state.user_info = None
-if "oauth_state" not in st.session_state:
-    st.session_state.oauth_state = str(uuid.uuid4())  # Generate a unique state
 
 # --- Login Flow ---
 if not st.session_state.logged_in:
@@ -42,14 +40,10 @@ if not st.session_state.logged_in:
         scope="openid email profile",
         key="google_login",
         icon="",  # Prevents the "None" file error
-        state=st.session_state.oauth_state,  # Ensure state consistency
     )
 
     if result:
         st.write("OAuth Result:", result)  # Debugging output
-        if result.get("state") != st.session_state.oauth_state:
-            st.error("State mismatch. Possible CSRF attack or configuration error.")
-            st.stop()
         try:
             access_token = result.get("token", {}).get("access_token")
             if not access_token:
@@ -153,5 +147,6 @@ if submitted:
             st.success("✅ Report generated and sent to your email successfully.")
         except Exception as e:
             st.error(f"Error generating or sending report: {e}")
+            st.warning("Note: File operations may fail on Streamlit Cloud due to its read-only filesystem. Consider hosting on a different platform for full functionality.")
     else:
         st.warning("Please log in to save or send the report.")
