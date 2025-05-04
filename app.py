@@ -35,7 +35,6 @@ if "user_info" not in st.session_state:
 if not st.session_state.logged_in:
     result = google.authorize_button(
         name="Continue with Google",
-        icon="🔐",
         redirect_uri=redirect_uri,
         scope="openid email profile",
         key="google_login",
