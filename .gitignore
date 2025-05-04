@@ -13,3 +13,7 @@ venv/
 .env
 .venv
 .gitattributes
+
+# screts
+client_secret.json
+.streamlit/secrets.toml
