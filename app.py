@@ -3,8 +3,8 @@ import requests
 from streamlit_oauth import OAuth2Component
 import logging
 import os
-import asyncio
 from datetime import datetime
+import uuid
 from report_generator import generate_pdf_report, send_email_with_report
 from data_loader import load_data
 from model_trainer import train_model
@@ -31,21 +31,27 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
     st.session_state.user_info = None
+if "oauth_state" not in st.session_state:
+    st.session_state.oauth_state = str(uuid.uuid4())  # Generate a unique state
 
 # --- Login Flow ---
-
 if not st.session_state.logged_in:
     result = google.authorize_button(
         name="Continue with Google",
         redirect_uri=redirect_uri,
         scope="openid email profile",
         key="google_login",
+        icon="",  # Prevents the "None" file error
+        state=st.session_state.oauth_state,  # Ensure state consistency
     )
 
     if result:
+        st.write("OAuth Result:", result)  # Debugging output
+        if result.get("state") != st.session_state.oauth_state:
+            st.error("State mismatch. Possible CSRF attack or configuration error.")
+            st.stop()
         try:
             access_token = result.get("token", {}).get("access_token")
-
             if not access_token:
                 st.error("Access token not found in OAuth result.")
                 st.stop()
