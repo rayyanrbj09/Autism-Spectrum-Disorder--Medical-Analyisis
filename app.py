@@ -3,7 +3,6 @@ import requests
 from streamlit_oauth import OAuth2Component
 import logging
 import os
-import asyncio
 from datetime import datetime
 from report_generator import generate_pdf_report, send_email_with_report
 from data_loader import load_data
@@ -31,9 +30,12 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
     st.session_state.user_info = None
+if "oauth_in_progress" not in st.session_state:
+    st.session_state.oauth_in_progress = False  # Track OAuth flow
 
 # --- Login Flow ---
-if not st.session_state.logged_in:
+if not st.session_state.logged_in and not st.session_state.oauth_in_progress:
+    st.session_state.oauth_in_progress = True  # Prevent reruns during OAuth
     result = google.authorize_button(
         name="Continue with Google",
         redirect_uri=redirect_uri,
@@ -44,6 +46,7 @@ if not st.session_state.logged_in:
 
     if result:
         st.write("OAuth Result:", result)  # Debugging output
+        st.session_state.oauth_in_progress = False  # Reset after result
         try:
             access_token = result.get("token", {}).get("access_token")
             if not access_token:
@@ -63,9 +66,11 @@ if not st.session_state.logged_in:
                 st.stop()
         except Exception as e:
             st.error(f"OAuth login error: {e}")
+            st.session_state.oauth_in_progress = False
             st.stop()
 else:
-    st.write(f"Welcome, {st.session_state.user_info.get('name', 'User')}!")
+    if st.session_state.logged_in:
+        st.write(f"Welcome, {st.session_state.user_info.get('name', 'User')}!")
 
 # --- App Title ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
