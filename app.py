@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_oauth import OAuth2Component
 import logging
 import os
 from datetime import datetime
@@ -9,55 +10,45 @@ from predictor import make_prediction
 from visualizer import plot_qchat_score
 from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
+# Initialize logging
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
+
+# OAuth credentials from Streamlit secrets
+redirect_uri = st.secrets["GOOGLE_REDIRECT_URI"]
+client_id = st.secrets["GOOGLE_CLIENT_ID"]
+client_secret = st.secrets["GOOGLE_CLIENT_SECRET"]
+
+# Initialize the OAuth component
+google = OAuth2Component(
+    client_id=client_id,
+    client_secret=client_secret,
+)
 
 # --- Session State Initialization ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
     st.session_state.user_info = None
-if "trigger_report" not in st.session_state:
-    st.session_state.trigger_report = False
 
-
-
-
-user_info = st.session_state.user_info if st.session_state.logged_in else {}
-user_email = user_info.get("email", "")
-user_name = user_info.get("name", "User")
-user_password = user_info.get("password", "")
-
-# --- Manual Login Function ---
-def manual_login():
-    with st.sidebar:
-        st.subheader("Login")
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.button("Login"):
-            if username == user_email and password == user_password:
-                return {"name": "Admin User", "email": "admin@example.com"}
-            else:
-                st.error("Invalid username or password.")
-    return None
-
-# --- Manual Login Handling ---
+# --- Login Flow ---
+# --- Login Flow ---
 if not st.session_state.logged_in:
-    user_info = manual_login()
-    if user_info:
+    result = google.authorize_button(
+        name="Continue with Google",
+        icon="🔐",
+        redirect_uri=redirect_uri,
+        scope=" ".join(["openid", "email", "profile"]),  # Fixed scope here
+        key="google_login",
+    )
+    if result:
+        user_info = google.get_user_info(result['access_token'], "https://www.googleapis.com/oauth2/v3/userinfo")
         st.session_state.logged_in = True
         st.session_state.user_info = user_info
         st.success(f"Logged in as {user_info.get('email')}")
+else:
+    st.write(f"Welcome, {st.session_state.user_info.get('name', 'User')}!")
 
-# --- UI Buttons ---
-col1, col2, col3 = st.columns([6, 1, 1])
-
-with col3:
-    if st.button("Report"):
-        if not st.session_state.logged_in:
-            st.warning("Please log in to generate a report.")
-        st.session_state.trigger_report = True
-
-# --- App Header ---
+# --- App Content ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
 st.write("This app predicts the likelihood of ASD based on Q-CHAT-10 responses. It also generates reports if you're logged in.")
 st.markdown("---")
@@ -83,19 +74,6 @@ if model is None:
     st.error("Failed to load or train model.")
     st.stop()
 
-# --- Display Previous Reports ---
-if st.session_state.logged_in:
-    user_reports_dir = os.path.join("user_reports", user_email)
-    os.makedirs(user_reports_dir, exist_ok=True)
-    existing_reports = [f for f in os.listdir(user_reports_dir) if f.endswith(".pdf")]
-    if existing_reports:
-        st.subheader("📄 Your Past Reports")
-        for rep in existing_reports:
-            with open(os.path.join(user_reports_dir, rep), "rb") as f:
-                st.download_button(label=f"Download {rep}", data=f, file_name=rep)
-    else:
-        st.info("No previous reports found.")
-
 # --- ASD Prediction Form ---
 with st.form("ASD Form"):
     answers = [st.selectbox(q, [''] + OPTIONS, key=f"q{i}", index=0) for i, q in enumerate(QUESTIONS)]
@@ -107,7 +85,7 @@ with st.form("ASD Form"):
     Who_completed_the_test = st.selectbox("Who completed the test?", ['Mother', 'Parent', 'Health Care Professional', 'Family member'], index=0)
     submitted = st.form_submit_button("Submit")
 
-# --- On Submission ---
+# --- On Form Submission ---
 if submitted:
     if '' in answers:
         st.error("Please answer all questions.")
@@ -122,11 +100,12 @@ if submitted:
     st.markdown(f"- **Prediction**: {ml_result}")
     plot_qchat_score(qchat_score)
 
+    # If logged in, allow report generation
     if st.session_state.logged_in:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         result_data = {
-            'name': user_name,
-            'email': user_email,
+            'name': st.session_state.user_info['name'],
+            'email': st.session_state.user_info['email'],
             'timestamp': timestamp,
             'Qchat-10 Score': qchat_score,
             'ML Prediction': ml_result,
@@ -140,16 +119,16 @@ if submitted:
         }
 
         try:
-            user_reports_dir = os.path.join("user_reports", user_email)
+            user_reports_dir = os.path.join("user_reports", st.session_state.user_info['email'])
             os.makedirs(user_reports_dir, exist_ok=True)
             pdf_path = generate_pdf_report(result_data)
             final_pdf_path = os.path.join(user_reports_dir, os.path.basename(pdf_path))
             os.replace(pdf_path, final_pdf_path)
-            send_email_with_report(user_email, final_pdf_path)
+            send_email_with_report(st.session_state.user_info['email'], final_pdf_path)
             st.success("Report generated and sent to your email successfully.")
         except Exception as e:
             st.error(f"Error generating or sending report: {e}")
     else:
         st.warning("Please log in to save or send the report.")
 
-   
+

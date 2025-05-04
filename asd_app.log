@@ -904,3 +904,16 @@ DEBUG:root:Attempting to load dataset from: datasets 1/Toddler Autism dataset Ju
 DEBUG:root:Dataset loaded successfully
 DEBUG:root:Dataset preprocessed successfully
 DEBUG:root:Loading or training model
+DEBUG:matplotlib:matplotlib data path: d:\Autism-Spectrum-Disorder--Medical-Analyisis\.venv\Lib\site-packages\matplotlib\mpl-data
+DEBUG:matplotlib:CONFIGDIR=C:\Users\Rayyan\.matplotlib
+DEBUG:matplotlib:interactive is False
+DEBUG:matplotlib:platform is win32
+DEBUG:matplotlib:CACHEDIR=C:\Users\Rayyan\.matplotlib
+DEBUG:matplotlib.font_manager:Using fontManager instance from C:\Users\Rayyan\.matplotlib\fontlist-v390.json
+DEBUG:root:Attempting to load dataset from: datasets 1/Toddler Autism dataset July 2018.csv
+DEBUG:root:Dataset loaded successfully
+DEBUG:root:Dataset preprocessed successfully
+DEBUG:asyncio:Using selector: SelectSelector
+DEBUG:asyncio:Using selector: SelectSelector
+DEBUG:asyncio:Using selector: SelectSelector
+DEBUG:asyncio:Using selector: SelectSelector
