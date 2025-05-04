@@ -1,6 +1,6 @@
 import streamlit as st
-from streamlit_oauth import OAuth2Component
 import requests
+from streamlit_oauth import OAuth2Component
 import logging
 import os
 from datetime import datetime
@@ -11,17 +11,21 @@ from predictor import make_prediction
 from visualizer import plot_qchat_score
 from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
 
-# --- Logging setup ---
+# Initialize logging
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
-# --- OAuth2 Setup ---
+# OAuth credentials from Streamlit secrets
 redirect_uri = st.secrets["GOOGLE_REDIRECT_URI"]
 client_id = st.secrets["GOOGLE_CLIENT_ID"]
 client_secret = st.secrets["GOOGLE_CLIENT_SECRET"]
 
-google = OAuth2Component(client_id=client_id, client_secret=client_secret)
+# Initialize the OAuth component
+google = OAuth2Component(
+    client_id=client_id,
+    client_secret=client_secret,
+)
 
-# --- Session State ---
+# --- Session State Initialization ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "user_info" not in st.session_state:
@@ -40,14 +44,13 @@ if not st.session_state.logged_in:
     if result:
         try:
             access_token = result.get("token", {}).get("access_token")
+
             if not access_token:
                 st.error("Access token not found in OAuth result.")
                 st.stop()
 
             headers = {"Authorization": f"Bearer {access_token}"}
-            userinfo_response = requests.get(
-                "https://www.googleapis.com/oauth2/v3/userinfo", headers=headers
-            )
+            userinfo_response = requests.get("https://www.googleapis.com/oauth2/v3/userinfo", headers=headers)
 
             if userinfo_response.ok:
                 user_info = userinfo_response.json()
@@ -55,21 +58,20 @@ if not st.session_state.logged_in:
                 st.session_state.user_info = user_info
                 st.success(f"Logged in as {user_info.get('email')}")
             else:
-                st.error("Failed to fetch user info from Google.")
+                st.error("Failed to fetch user info.")
                 st.stop()
-
         except Exception as e:
-            st.error(f"OAuth error: {e}")
+            st.error(f"OAuth login error: {e}")
             st.stop()
 else:
     st.write(f"Welcome, {st.session_state.user_info.get('name', 'User')}!")
 
-# --- Title and Introduction ---
+# --- App Title ---
 st.title("🧠 Autism Spectrum Disorder Analysis App")
-st.write("This app predicts the likelihood of ASD based on Q-CHAT-10 responses. It also generates reports if you're logged in.")
+st.write("This app predicts the likelihood of ASD based on Q-CHAT-10 responses and provides a downloadable PDF report.")
 st.markdown("---")
 
-# --- Load Data and Train Model ---
+# --- Load and Train ---
 @st.cache_data
 def cached_load_data():
     return load_data()
@@ -90,7 +92,7 @@ if model is None:
     st.error("Failed to load or train model.")
     st.stop()
 
-# --- ASD Prediction Form ---
+# --- Prediction Form ---
 with st.form("ASD Form"):
     answers = [st.selectbox(q, [''] + OPTIONS, key=f"q{i}", index=0) for i, q in enumerate(QUESTIONS)]
     jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
@@ -98,14 +100,10 @@ with st.form("ASD Form"):
     age_mons = st.slider("Age of child (months):", 12, 48, 24)
     Sex = st.radio('Gender of the toddler', ['m', 'f'])
     Ethnicity = st.text_input('Enter the Ethnicity of the toddler')
-    Who_completed_the_test = st.selectbox(
-        "Who completed the test?",
-        ['Mother', 'Parent', 'Health Care Professional', 'Family member'],
-        index=0
-    )
+    Who_completed_the_test = st.selectbox("Who completed the test?", ['Mother', 'Parent', 'Health Care Professional', 'Family member'], index=0)
     submitted = st.form_submit_button("Submit")
 
-# --- On Form Submission ---
+# --- Submission Logic ---
 if submitted:
     if '' in answers:
         st.error("Please answer all questions.")
@@ -120,6 +118,7 @@ if submitted:
     st.markdown(f"- **Prediction**: {ml_result}")
     plot_qchat_score(qchat_score)
 
+    # --- Report Generation ---
     if st.session_state.logged_in:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         result_data = {
@@ -144,7 +143,7 @@ if submitted:
             final_pdf_path = os.path.join(user_reports_dir, os.path.basename(pdf_path))
             os.replace(pdf_path, final_pdf_path)
             send_email_with_report(st.session_state.user_info['email'], final_pdf_path)
-            st.success("Report generated and sent to your email successfully.")
+            st.success("✅ Report generated and sent to your email successfully.")
         except Exception as e:
             st.error(f"Error generating or sending report: {e}")
     else:
