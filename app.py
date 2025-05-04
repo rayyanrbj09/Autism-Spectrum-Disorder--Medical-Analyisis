@@ -39,7 +39,7 @@ if not st.session_state.logged_in:
 
     if result:
         try:
-            access_token = result.get("access_token")
+            access_token = result.get("token", {}).get("access_token")
             if not access_token:
                 st.error("Access token not found in OAuth result.")
                 st.stop()
