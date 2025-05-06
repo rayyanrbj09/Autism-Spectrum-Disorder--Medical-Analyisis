@@ -8,7 +8,11 @@ This project presents a data-driven approach to assist in the **early screening 
 
 ---
 
-![alt text](7036931-ai.webp) ![alt text](asd.jpg)
+<p align="center">
+  <img src="static/images/asd.jpg" width="30%" />
+  <img src="static/images/asd1.webp" width="30%" />
+</p>
+
 ##  Problem Statement
 
 ASD diagnosis can be delayed due to high costs, limited clinical resources, and time-consuming procedures. Early detection is crucial for better outcomes. This project addresses these issues by:
