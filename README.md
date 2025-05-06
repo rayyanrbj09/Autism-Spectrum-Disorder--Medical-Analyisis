@@ -9,8 +9,8 @@ This project presents a data-driven approach to assist in the **early screening 
 ---
 
 <p >
-  <img align = "Right" src="static/images/asd.jpg" width="50%" />
-  <img align = "Left" src="static/images/asd1.webp" width="50%" />
+  <img align = "Right" src="static/images/asd.jpg" width="40%" />
+  <img align = "Left" src="static/images/asd1.webp" width="40%" />
 </p>
 
 ##  Problem Statement
