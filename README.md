@@ -7,10 +7,9 @@ This project presents a data-driven approach to assist in the **early screening 
 **Goal**: To build a fast, interpretable, and accessible tool that predicts potential ASD traits in toddlers based on Q-Chat-10 responses and demographic information.
 
 ---
-
-<p >
-  <img align = "Right" src="static/images/asd.jpg" width="40%" />
-  <img align = "Left" src="static/images/asd1.webp" width="40%" />
+<p align="center">
+  <img src="static/images/asd.jpg" width="45%" style="margin-right: 10px;" />
+  <img src="static/images/asd1.webp" width="45%" />
 </p>
 
 ##  Problem Statement
