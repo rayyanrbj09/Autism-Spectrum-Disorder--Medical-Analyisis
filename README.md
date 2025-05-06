@@ -67,8 +67,8 @@ ASD diagnosis can be delayed due to high costs, limited clinical resources, and 
 
 ##  Workflow
 
-### 1. Data Preprocessing (Apache Spark)
-- Load and clean the dataset using PySpark DataFrames.
+### 1. Data Preprocessing
+- Load and clean the dataset using DataFrames.
 - Convert categorical and binary features to numerical.
 - Feature selection and label encoding via Spark ML pipelines.
 
