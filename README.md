@@ -8,7 +8,7 @@ This project presents a data-driven approach to assist in the **early screening 
 
 ---
 
-![alt text](7036931-ai.webp) ![alt text](<c:/Users/Rayyan/Desktop/snapshots/Autism Early Signs Autism Syndrome Children Stock Vector (Royalty Free) 1175748292 _ Shutterstock.html>)
+![alt text](7036931-ai.webp) ![alt text](asd.jpg)
 ##  Problem Statement
 
 ASD diagnosis can be delayed due to high costs, limited clinical resources, and time-consuming procedures. Early detection is crucial for better outcomes. This project addresses these issues by:
