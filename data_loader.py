@@ -48,7 +48,7 @@ def load_data():
         return df
     except FileNotFoundError:
         logging.error(f"Dataset not found at {DATA_PATH}")
-        st.error(f"Dataset not found at {DATA_PATH}. Please check the file path.")
+        
         return None
     except Exception as e:
         logging.error(f"Error loading dataset: {e}")
