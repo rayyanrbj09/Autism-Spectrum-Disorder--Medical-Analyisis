@@ -17,7 +17,6 @@ def train_model(data):
         # Check if the model file exists
         if os.path.exists(MODEL_PATH):
             model = joblib.load(MODEL_PATH)
-            st.write("Loaded existing model from file.")
             return model
 
         # If no model exists, train a new one
