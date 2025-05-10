@@ -1,93 +1,91 @@
 import streamlit as st
-from streamlit_lottie import st_lottie
-import json
-import requests
+from datetime import datetime
 
-st.set_page_config(page_title="Toddler Support", page_icon="👶", layout="centered")
+# App configuration
+st.set_page_config(page_title="Toddler Parenting Support", page_icon="👶", layout="centered")
 
-# Load Lottie Animations from URL
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
+# Header
+st.title("👶 Toddler Parenting Support")
+st.markdown("### 💖 Gentle, Practical Tips for Your Toddler’s Growth")
 
-# Load animation assets
-lottie_play = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_tutvdkg0.json")
-lottie_food = load_lottieurl("https://assets4.lottiefiles.com/packages/lf20_RHBBwK.json")
-lottie_sleep = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_mKkKJj.json")
-lottie_read = load_lottieurl("https://assets3.lottiefiles.com/packages/lf20_3vbOcw.json")
+st.markdown("Parenting a toddler can be challenging — but you're not alone! Here's a friendly, informative guide to help you build healthy habits and nurture your child’s development.")
 
-# Title
-st.title("👶 Healthy Parenting: Toddler Tips & Support")
+# 1. Emotional Growth & Play
+st.header("🎈 Emotional Development & Play")
+with st.expander("Why Play Matters"):
+    st.markdown("""
+    - Encourages imagination and problem-solving.
+    - Helps build trust and emotional security.
+    - Develops social skills like sharing and empathy.
+    """)
 
-st.markdown("### 💡 Suggestions for Parents")
-st.write("Your toddler's growth depends on **love**, **routine**, and **interaction**. Here's how you can help them thrive:")
-
-# PLAY & EMOTIONAL DEVELOPMENT
-with st.container():
-    st.subheader("🎈 Encourage Play & Emotional Growth")
-    col1, col2 = st.columns([2, 1])
-    with col1:
-        st.markdown("""
-        - Let them explore freely (supervised).
-        - Respond to their emotions with patience.
-        - Talk and name feelings ("I see you're sad", "That made you happy").
-        - Create a loving and secure environment.
-        """)
-    with col2:
-        st_lottie(lottie_play, height=150, key="play")
-
-# NUTRITION & MEALS
-with st.container():
-    st.subheader("🥗 Provide Balanced Nutrition")
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st_lottie(lottie_food, height=150, key="food")
-    with col2:
-        st.markdown("""
-        - Offer fruits, vegetables, whole grains.
-        - Avoid sugary drinks and processed snacks.
-        - Keep mealtime relaxed and interactive.
-        - Respect toddler's appetite — don’t force-feed.
-        """)
-
-# SLEEP ROUTINE
-with st.container():
-    st.subheader("🌙 Build a Healthy Sleep Routine")
-    col1, col2 = st.columns([2, 1])
-    with col1:
-        st.markdown("""
-        - Maintain a fixed bedtime and wake-up time.
-        - No screens 1 hour before sleep.
-        - Use bedtime stories and cuddles to calm them.
-        - Toddlers need 11–14 hours of sleep/day (including naps).
-        """)
-    with col2:
-        st_lottie(lottie_sleep, height=150, key="sleep")
-
-# LEARNING THROUGH READING
-with st.container():
-    st.subheader("📚 Read & Talk Daily")
-    col1, col2 = st.columns([1, 2])
-    with col1:
-        st_lottie(lottie_read, height=150, key="read")
-    with col2:
-        st.markdown("""
-        - Read books with pictures and simple words.
-        - Point to things and say their names aloud.
-        - Let them turn pages and interact with books.
-        - Talk to them even if they don’t fully respond.
-        """)
-
-# Additional Support
-st.markdown("### 💖 Emotional Support for Parents")
-st.info("""
-You're doing great! Every toddler is unique. Stay consistent, trust your instincts, and don’t hesitate to ask for help from pediatricians or parenting groups.
+st.markdown("""
+**Tips for Parents:**
+- Create a safe space to explore and play.
+- Allow free play time daily — even 30 mins is great!
+- Join their play and follow their lead.
 """)
 
-st.markdown("#### 🙌 Stay Strong, Stay Loving!")
+# 2. Nutrition & Eating Habits
+st.header("🥦 Healthy Eating Habits")
+with st.expander("Balanced Diet for Toddlers"):
+    st.markdown("""
+    - Include fruits, vegetables, grains, and proteins.
+    - Avoid junk food, sugary drinks, and excess salt.
+    - Respect hunger cues — don’t force meals.
+    """)
 
-# Optional: Footer
+st.markdown("""
+**Tips for Parents:**
+- Eat together as a family.
+- Make food colorful and fun (e.g., fruit smiley faces).
+- Keep meal and snack times regular.
+""")
+
+# 3. Sleep Routine
+st.header("🌙 Sleep Schedule")
+with st.expander("Why Sleep Is Crucial"):
+    st.markdown("""
+    - Supports brain growth and emotional balance.
+    - Reduces tantrums and improves focus.
+    - Toddlers need **11–14 hours** of sleep (including naps).
+    """)
+
+st.markdown("""
+**Tips for Parents:**
+- Maintain a calm and consistent bedtime routine.
+- Avoid screen time at least 1 hour before sleep.
+- Use dim lighting and read bedtime stories.
+""")
+
+# 4. Language & Learning
+st.header("📚 Early Learning & Talking")
+with st.expander("Language Boosters"):
+    st.markdown("""
+    - Talk to them about everyday things.
+    - Ask questions and wait for their answers.
+    - Read daily, even if it’s the same story again!
+    """)
+
+st.markdown("""
+**Tips for Parents:**
+- Name objects around them (“This is a ball!”).
+- Repeat words and encourage speech attempts.
+- Let them explore books, textures, and sounds.
+""")
+
+# 5. For You, Dear Parent
+st.header("🫶 Support for You")
+with st.expander("You're Not Alone ❤️"):
+    st.markdown("""
+    - It’s okay to feel tired or overwhelmed.
+    - Talk to your partner, family, or other parents.
+    - Celebrate small wins. You are doing amazing!
+    """)
+
+# Footer
 st.markdown("---")
-st.markdown("Made with ❤️ using Streamlit | [LottieFiles](https://lottiefiles.com) for animations")
+st.markdown(f"📅 Today: **{datetime.now().strftime('%B %d, %Y')}**")
+st.markdown("✨ Made with love in Streamlit")
+
+
