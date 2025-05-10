@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import datetime
 
 # App configuration
 st.set_page_config(page_title="Toddler Parenting Support", page_icon="👶", layout="centered")
@@ -10,6 +9,7 @@ st.markdown("### 💖 Gentle, Practical Tips for Your Toddler’s Growth")
 
 st.markdown("Parenting a toddler can be challenging — but you're not alone! Here's a friendly, informative guide to help you build healthy habits and nurture your child’s development.")
 
+st.image(r'static/images/support.jpg')
 # 1. Emotional Growth & Play
 st.header("🎈 Emotional Development & Play")
 with st.expander("Why Play Matters"):
@@ -85,7 +85,6 @@ with st.expander("You're Not Alone ❤️"):
 
 # Footer
 st.markdown("---")
-st.markdown(f"📅 Today: **{datetime.now().strftime('%B %d, %Y')}**")
 st.markdown("✨ Made with love in Streamlit")
 
 
