@@ -7,7 +7,7 @@ from data_loader import load_data
 from model_trainer import train_model
 from predictor import make_prediction
 from visualizer import plot_qchat_score
-from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS
+from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS, image1, image2
 
 # Setup logging
 LOG_FILE = 'asd_app.log'
@@ -18,7 +18,13 @@ st.set_page_config(page_title="ASD Prediction App", layout="centered")
 st.title("🧠 Autism Spectrum Disorder - Prediction system (Screening test)")
 st.write("This app predicts ASD likelihood based on Q-CHAT-10 responses and provides a downloadable PDF report.")
 st.markdown(f"- **Disclaimer**: This app is for educational purposes only and might be used for medical diagnosis.")
-st.write("This is not a substitute for professional medical screening test. Always seek qualified health provider with any questions you may have regarding a medical condition.")
+# Images
+
+col1, col2 = st.columns(2)
+with col1:
+    st.image(image2, use_container_width=True, width = 400, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
+with col2:
+    st.image(image1, use_container_width=True, width = 400)
 st.markdown("---")
 
 # Load data and train model
