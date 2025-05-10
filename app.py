@@ -14,10 +14,11 @@ LOG_FILE = 'asd_app.log'
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Set page
-st.set_page_config(page_title="ASD Prediction App", layout="centered")
+st.set_page_config(page_title="ASD Screening test", layout="wide")
 st.title("🧠 Autism Spectrum Disorder - Prediction system (Screening test)")
 st.write("This app predicts ASD likelihood based on Q-CHAT-10 responses and provides a downloadable PDF report.")
 st.markdown(f"- **Disclaimer**: This app is for educational purposes only and might be used for medical diagnosis.")
+
 st.markdown("---")
 
 

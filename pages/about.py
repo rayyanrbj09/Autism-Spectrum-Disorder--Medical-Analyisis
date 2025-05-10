@@ -28,6 +28,7 @@ with st.expander("**Signs and Symptoms**"):
     Autism spectrum disorder (ASD) can present with a wide range of signs and symptoms, including difficulties with social interaction, communication, and repetitive behaviors. Individuals with ASD may experience sensory sensitivities, intense focus on specific interests, and emotional regulation challenges.
     """)
 
+
 st.markdown("**Social Communication Challenges**")
 st.write("- Difficulty in understanding social cues, such as body language and tone of voice.")
 
@@ -35,3 +36,7 @@ with st.expander("**Cures and Treatments**"):
     st.write("""
     There is no known cure for autism, but early intervention and tailored therapies can significantly improve outcomes. Treatments may include behavioral therapy, speech therapy, occupational therapy, and educational support. Medications may also be prescribed to manage specific symptoms or co-occurring conditions.
     """)
+
+    if st.button("Treatments for Autistic Toddlers"):
+        st.session_state.show_treatmennt = 'Treatments.py'
+        st.experimental_rerun(st.session_state.show_treatmennt)
