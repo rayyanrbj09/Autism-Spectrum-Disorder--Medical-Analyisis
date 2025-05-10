@@ -16,4 +16,4 @@ QUESTIONS = [
 ]
 OPTIONS = ['Always', 'Usually', 'Sometimes', 'Rarely', 'Never']
 image1 = r'static\images\asd1.webp'
-image2 = r'static\images\asd.jpg'
+image2 = r'static\images\asd2.jpg'
