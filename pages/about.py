@@ -4,12 +4,7 @@ from config import image1, image2
 st.set_page_config(page_title="About", layout="centered")
 st.title("About the Autism Spectrum Disorder (ASD)")
 
-col1, col2 = st.columns(2)
-with col1:
-    st.image(image1, use_container_width=True, width=400, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
-with col2:
-    st.image(image2, use_container_width=True, width=400)
-st.markdown("---")
+
 
 st.video(r'https://www.youtube.com/watch?v=TJuwhCIQQTs', start_time=0)
 st.write("""
@@ -20,6 +15,12 @@ with st.expander("**What is Autism Spectrum Disorder?**"):
     st.write("""
     Autism spectrum disorder (ASD) is a complex neurodevelopmental disorder characterized by a range of symptoms and challenges in social interaction, communication, and behavior. The term "spectrum" reflects the wide variation in challenges and strengths possessed by each person with autism. Some individuals may have significant challenges, while others may be highly skilled in certain areas.
     """)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(image1, use_container_width=True, width=400, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
+    with col2:
+        st.image(image2, use_container_width=True, width=400)
+    st.markdown("---")
 
 with st.expander("**Signs and Symptoms**"):
     st.write("""
