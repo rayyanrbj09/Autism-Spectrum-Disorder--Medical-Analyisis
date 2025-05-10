@@ -15,5 +15,5 @@ QUESTIONS = [
     "10. Does your child stare at nothing with no apparent purpose?"
 ]
 OPTIONS = ['Always', 'Usually', 'Sometimes', 'Rarely', 'Never']
-image1 = r'static\images\asd1.webp'
-image2 = r'static\images\asd2.jpg'
+image1 = r'static/images/asd1.webp'
+image2 = r'static/images/asd2.jpg'
