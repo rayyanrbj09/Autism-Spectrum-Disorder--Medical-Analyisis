@@ -11,8 +11,7 @@ with col2:
     st.image(image2, use_container_width=True, width=400)
 st.markdown("---")
 
-st.video(r'https://www.youtube.com/watch?v=TJuwhCIQQTs', start_time=0, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
-
+st.video(r'https://www.youtube.com/watch?v=TJuwhCIQQTs', start_time=0)
 st.write("""
 Autism spectrum disorder is a neurological and developmental disorder that affects how people interact with others, communicate, learn, and behave. Although autism can be diagnosed at any age, it is described as a “developmental disorder” because symptoms generally appear in the first two years of life.
 """)
