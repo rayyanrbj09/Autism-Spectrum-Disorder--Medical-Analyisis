@@ -1,5 +1,4 @@
 import streamlit as st
-
 # App configuration
 st.set_page_config(page_title="Toddler Parenting Support", page_icon="👶", layout="centered")
 
