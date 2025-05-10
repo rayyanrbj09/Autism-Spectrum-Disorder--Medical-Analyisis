@@ -20,12 +20,7 @@ st.write("This app predicts ASD likelihood based on Q-CHAT-10 responses and prov
 st.markdown(f"- **Disclaimer**: This app is for educational purposes only and might be used for medical diagnosis.")
 # Images
 
-col1, col2 = st.columns(2)
-with col1:
-    st.image(image1, use_container_width=True, width = 400, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
-with col2:
-    st.image(image2, use_container_width=True, width = 400)
-st.markdown("---")
+
 
 # Load data and train model
 try:
