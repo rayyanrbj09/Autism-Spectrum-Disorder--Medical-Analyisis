@@ -20,13 +20,6 @@ st.write("This app predicts ASD likelihood based on Q-CHAT-10 responses and prov
 st.markdown(f"- **Disclaimer**: This app is for educational purposes only and might be used for medical diagnosis.")
 st.markdown("---")
 
-#little more dicription
-st.header("About")
-st.write("Autism Spectrum Disorder (ASD) is a developmental condition that affects how a person communicates, interacts socially, and behaves. It often appears in early childhood, typically before the age of three, and can vary widely in severity and symptoms. Children with ASD may have difficulties with speech, understanding social cues, or may engage in repetitive behaviors. While the exact cause is not fully understood, early diagnosis and intervention can greatly improve a child’s ability to develop essential skills and lead a fulfilling life.")
-st.markdown("---")
-# Images
-
-
 
 # Load data and train model
 try:
