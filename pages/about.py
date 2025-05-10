@@ -2,7 +2,7 @@ import streamlit as st
 from config import image1, image2
 
 st.set_page_config(page_title="About", layout="centered")
-st.title("About the App")
+st.title("About the Autism Spectrum Disorder (ASD)")
 
 col1, col2 = st.columns(2)
 with col1:
@@ -10,6 +10,8 @@ with col1:
 with col2:
     st.image(image2, use_container_width=True, width=400)
 st.markdown("---")
+
+st.video(r'https://www.youtube.com/watch?v=TJuwhCIQQTs', start_time=0, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
 
 st.write("""
 Autism spectrum disorder is a neurological and developmental disorder that affects how people interact with others, communicate, learn, and behave. Although autism can be diagnosed at any age, it is described as a “developmental disorder” because symptoms generally appear in the first two years of life.
