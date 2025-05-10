@@ -21,10 +21,8 @@ st.markdown(f"- **Disclaimer**: This app is for educational purposes only and mi
 # Images
 
 col1, col2 = st.columns(2)
-# with col1:
-#     st.image(r"static\images\asd2.jpg", use_container_width=True, width = 400, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
-with col2:
-    st.image(image1, use_container_width=True, width = 400)
+st.image(r"static\images\asd2.jpg", use_container_width=True, width = 400, caption="Autism Spectrum Disorder - Inforgraphics : Common Signs. \n Visual Summary ")
+st.image(image1, use_container_width=True, width = 400)
 st.markdown("---")
 
 # Load data and train model
