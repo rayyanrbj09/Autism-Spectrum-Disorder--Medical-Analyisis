@@ -3,7 +3,7 @@ st.set_page_config(page_title="Analysis", layout="centered")
 st.title("Analysis of Autism Spectrum Disorder")
 
 st.markdown("""
-## From the Charts that was generated the insgihts found useful are :
+ ** *From the Charts that was generated the insgihts found useful are **:
 ---------------
 **12-18 Months**:
 - Predominantly light yellow cells (scores around -4 to -15) suggest lower QCHAT-10 scores, indicating fewer or less pronounced ASD traits. This aligns with the idea that autism symptoms may be subtler or harder to detect in younger toddlers.
