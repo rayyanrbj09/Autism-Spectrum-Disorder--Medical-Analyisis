@@ -5,7 +5,7 @@ st.set_page_config(page_title="Autism Toddler Treatment Guide", layout="wide")
 st.title("🧩 Treatments for Autistic Toddlers")
 
 # Sidebar for Navigation
-section = st.sidebar.radio("Jump to a Section", [
+section = st.sidebar.selectbox("Jump to a Section", [
     "1. Behavioral and Developmental Therapies",
     "2. Speech and Language Therapy",
     "3. Occupational Therapy (OT)",

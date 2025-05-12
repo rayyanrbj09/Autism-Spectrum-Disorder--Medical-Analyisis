@@ -37,6 +37,4 @@ with st.expander("**Cures and Treatments**"):
     There is no known cure for autism, but early intervention and tailored therapies can significantly improve outcomes. Treatments may include behavioral therapy, speech therapy, occupational therapy, and educational support. Medications may also be prescribed to manage specific symptoms or co-occurring conditions.
     """)
 
-    if st.button("Treatments for Autistic Toddlers"):
-        st.session_state.show_treatmennt = 'Treatments.py'
-        st.experimental_rerun(st.session_state.show_treatmennt)
+    
