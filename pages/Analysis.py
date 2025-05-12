@@ -26,4 +26,4 @@ with st.expander("**Charts**"):
     st.write('Asd and Ethnicity Comparison')
     st.image(r'static/images/output4.png', use_container_width=True)
 
-st.sidebar.info("Developed with ❤️ using Streamlit")
+st.sidebar.info("Developed with ❤️ using Streamlit by Code-Craft")

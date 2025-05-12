@@ -100,4 +100,4 @@ if submitted:
             logging.error(f"Prediction failed: {e}")
             st.error("Prediction failed. Please try again.")
 
-st.sidebar.info("Developed with ❤️ using Streamlit")
+st.sidebar.info("Developed with ❤️ using Streamlit by Code-Craft")

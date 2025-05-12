@@ -86,4 +86,4 @@ with st.expander("You're Not Alone ❤️"):
 st.markdown("---")
 st.markdown("✨ Made with love in Streamlit")
 
-st.sidebar.info("Developed with ❤️ using Streamlit")
+st.sidebar.info("Developed with ❤️ using Streamlit by Code-Craft")
