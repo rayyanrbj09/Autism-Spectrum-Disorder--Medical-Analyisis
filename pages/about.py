@@ -4,8 +4,6 @@ from config import image1, image2
 st.set_page_config(page_title="About", layout="centered")
 st.title("About the Autism Spectrum Disorder (ASD)")
 
-
-
 st.video(r'https://www.youtube.com/watch?v=TJuwhCIQQTs', start_time=0)
 st.write("""
 Autism spectrum disorder is a neurological and developmental disorder that affects how people interact with others, communicate, learn, and behave. Although autism can be diagnosed at any age, it is described as a “developmental disorder” because symptoms generally appear in the first two years of life.
@@ -38,3 +36,4 @@ with st.expander("**Cures and Treatments**"):
     """)
 
     
+st.sidebar.info("Developed with ❤️ using Streamlit by Code-Craft")

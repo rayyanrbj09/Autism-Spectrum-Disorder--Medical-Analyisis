@@ -99,3 +99,5 @@ if submitted:
         except Exception as e:
             logging.error(f"Prediction failed: {e}")
             st.error("Prediction failed. Please try again.")
+
+st.sidebar.info("Developed with ❤️ using Streamlit")
