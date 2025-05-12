@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Autism Toddler Treatment Guide", layout="wide")
 
-st.title("🧩 Treatments for Autistic Toddlers")
+st.title("Treatments for Autistic Toddlers")
 
 # Sidebar for Navigation
 section = st.sidebar.selectbox("Jump to a Section", [
@@ -21,20 +21,20 @@ section = st.sidebar.selectbox("Jump to a Section", [
 if section == "1. Behavioral and Developmental Therapies":
     st.header("1. Behavioral and Developmental Therapies")
 
-    st.subheader("✅ Applied Behavior Analysis (ABA)")
+    st.subheader("Applied Behavior Analysis (ABA)")
     st.markdown("""
     - Most evidence-based therapy for autism.  
     - Uses positive reinforcement to teach desired behaviors and skills.  
     - Includes programs like **Early Start Denver Model (ESDM)** for toddlers.
     """)
 
-    st.subheader("✅ Developmental, Individual Difference, Relationship-Based (DIR/Floortime)")
+    st.subheader("Developmental, Individual Difference, Relationship-Based (DIR/Floortime)")
     st.markdown("""
     - Focuses on emotional and relational development.  
     - Encourages learning through play and relationship-building.
     """)
 
-    st.subheader("✅ Early Intervention Programs (IDEA Part C in the U.S.)")
+    st.subheader("Early Intervention Programs (IDEA Part C in the U.S.)")
     st.markdown("""
     - Government-supported programs offering therapies at home or centers.  
     - Involve **speech**, **occupational**, and **behavioral therapy**.
