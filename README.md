@@ -9,7 +9,7 @@ This project presents a data-driven approach to assist in the **early screening 
 ---
 <p align="center">
   <img src="static/images/asd1.webp" width="45%" style="margin-right: 10px;"/>
-  <img src="static/images/asd.jpg" width="45%"/>
+  <img src="static/images/asd2.jpg" width="45%"/>
 </p>
 
 ##  Problem Statement
