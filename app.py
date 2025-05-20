@@ -15,6 +15,25 @@ logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s -
 
 # Set page
 st.set_page_config(page_title="ASD Screening test", layout="centered", initial_sidebar_state="expanded")
+st.markdown(
+    """
+    <style>
+    /* Change font for the whole app */
+    .stApp {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 18px;
+    }
+    /* Change font and color for h1 (title) */
+    h1 {
+        font-family: 'Trebuchet MS', Arial, sans-serif;
+        color: white;
+        font-size: 2.5em;
+        font-weight: bold;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 st.title("🧠 Autism Spectrum Disorder - Prediction system (Screening test)")
 st.write("This app predicts ASD likelihood based on Q-CHAT-10 responses and provides a downloadable PDF report.")
 st.markdown(f"- **Disclaimer**: This app is for educational purposes only and might be used for medical diagnosis.")
