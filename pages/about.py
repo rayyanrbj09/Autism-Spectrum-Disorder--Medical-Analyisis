@@ -6,12 +6,10 @@ st.set_page_config(page_title="About", layout="centered")
 st.markdown(
     """
     <style>
-    /* Change font for the whole app */
     .stApp {
         font-family: 'Segoe UI', Arial, sans-serif;
         font-size: 18px;
     }
-    /* Change font and color for h1 (title) */
     h1 {
         font-family: 'Trebuchet MS', Arial, sans-serif;
         color: white;
