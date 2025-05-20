@@ -116,6 +116,3 @@ elif section == "9. Educational Interventions":
 # Footer
 st.sidebar.markdown("---")
 st.sidebar.info("Developed with ❤️ using Streamlit by Code-Craft")
-
-
-

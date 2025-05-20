@@ -1,4 +1,5 @@
 import streamlit as st
+
 st.set_page_config(page_title="Analysis", layout="centered")
 st.title("Analysis of Autism Spectrum Disorder")
 
@@ -13,7 +14,6 @@ st.markdown("""
 ---------------
 **24-36 Months**:
 - Darker red cells (-30 to -45) dominate, indicating a higher prevalence of elevated QCHAT-10 scores. This could suggest that ASD traits are more detectable or severe in this age group, consistent with developmental progression and increased screening sensitivity.
-
 """)
 
 with st.expander("**Charts**"):

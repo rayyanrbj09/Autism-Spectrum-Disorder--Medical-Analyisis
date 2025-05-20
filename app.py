@@ -21,7 +21,6 @@ st.markdown(f"- **Disclaimer**: This app is for educational purposes only and mi
 
 st.markdown("---")
 
-
 # Load data and train model
 try:
     df = load_data()
