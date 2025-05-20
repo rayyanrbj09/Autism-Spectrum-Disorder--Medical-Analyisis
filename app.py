@@ -14,7 +14,7 @@ LOG_FILE = 'asd_app.log'
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Set page
-st.set_page_config(page_title="ASD Screening test", layout="centered", initial_sidebar_state="expanded")
+st.set_page_config(page_title="ASD Screening test", layout="centered")
 st.markdown(
     """
     <style>
@@ -27,11 +27,6 @@ st.markdown(
         color: white;
         font-size: 2.5em;
         font-weight: bold;
-        text-shadow:
-            0 0 10px rgba(255,255,255,0.8),
-            0 0 20px rgba(255,215,0,0.7),
-            0 0 30px rgba(0,255,255,0.6),
-            0 0 40px rgba(255,255,255,0.5);
     }
     </style>
     """,
