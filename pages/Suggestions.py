@@ -1,6 +1,30 @@
 import streamlit as st
 # App configuration
 st.set_page_config(page_title="Toddler Parenting Support", layout="centered")
+st.markdown(
+    """
+    <style>
+    /* Change font for the whole app */
+    .stApp {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 18px;
+    }
+    /* Change font and color for h1 (title) */
+    h1 {
+        font-family: 'Trebuchet MS', Arial, sans-serif;
+        color: white;
+        font-size: 2.5em;
+        font-weight: bold;
+        text-shadow:
+            0 0 10px rgba(255,255,255,0.8),
+            0 0 20px rgba(255,215,0,0.7),
+            0 0 30px rgba(0,255,255,0.6),
+            0 0 40px rgba(255,255,255,0.5);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Header
 st.title("👶 Toddler Parenting Support")
