@@ -1,5 +1,5 @@
 import streamlit as st
-from src.core.config import image1, image2
+from src.config import image1, image2
 
 
 st.set_page_config(page_title="About", layout="centered")
