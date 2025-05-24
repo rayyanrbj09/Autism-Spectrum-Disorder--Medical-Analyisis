@@ -6,7 +6,7 @@ import joblib
 import os
 from src.config import FEATURE_COLS
 
-MODEL_PATH = 'asd_model.joblib'
+MODEL_PATH = r'models/asd_model.joblib'
 
 def train_model(data):
     """
