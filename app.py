@@ -2,15 +2,15 @@ import streamlit as st
 import os
 import logging
 from datetime import datetime
-from report_generator import generate_pdf_report
-from data_loader import load_data
-from model_trainer import train_model
-from predictor import make_prediction
-from visualizer import plot_qchat_score
-from config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS, image1, image2
+from src.utils.report_generator import generate_pdf_report
+from src.core.data_loader import load_data
+from src.core.model_trainer import train_model
+from src.core.predictor import make_prediction
+from src.utils.visualizer import plot_qchat_score
+from src.config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTIONS, image1, image2
 
 # Setup logging
-LOG_FILE = 'asd_app.log'
+LOG_FILE = r'logs/asd_app.log'
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Set page

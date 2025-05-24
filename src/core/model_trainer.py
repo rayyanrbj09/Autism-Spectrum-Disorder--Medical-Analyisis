@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 import os
-from config import FEATURE_COLS
+from src.config import FEATURE_COLS
 
 MODEL_PATH = 'asd_model.joblib'
 

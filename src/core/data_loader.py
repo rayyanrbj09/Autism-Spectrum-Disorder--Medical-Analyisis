@@ -2,7 +2,7 @@
 import streamlit as st
 import pandas as pd
 import logging
-from config import DATA_PATH
+from src.config import DATA_PATH
 
 logging.basicConfig(filename='asd_app.log', level=logging.DEBUG)
 
