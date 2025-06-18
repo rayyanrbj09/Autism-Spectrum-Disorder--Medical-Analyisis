@@ -2,6 +2,8 @@ import streamlit as st
 import os
 import logging
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
 from src.utils.report_generator import generate_pdf_report
 from src.core.data_loader import load_data
 from src.core.model_trainer import train_model
@@ -11,12 +13,12 @@ from src.config import DATA_PATH, QCHAT_THRESHOLD, FEATURE_COLS, QUESTIONS, OPTI
 
 # Setup logging
 LOG_FILE = r'logs/asd_app.log'
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Set page
 st.set_page_config(page_title="ASD Screening test", layout="centered")
-st.markdown(
-    """
+st.markdown("""
     <style>
     .stApp {
         font-family: 'Segoe UI', Arial, sans-serif;
@@ -29,25 +31,39 @@ st.markdown(
         font-weight: bold;
     }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    """, unsafe_allow_html=True)
 st.title("🧠 Autism Spectrum Disorder - Prediction system (Screening test)")
 st.write("This app predicts ASD likelihood based on Q-CHAT-10 responses and provides a downloadable PDF report.")
 st.markdown(f"- **Disclaimer**: This app is for educational purposes only and might be used for medical diagnosis.")
-
 st.markdown("---")
 
-# Load data and train model
-try:
+# === Caching the data and model ===
+@st.cache_resource(show_spinner="🔃 Loading and training model...")
+def get_model():
     df = load_data()
     model = train_model(df)
+    return model
+
+try:
+    model = get_model()
 except Exception as e:
     logging.error(f"Model loading/training failed: {e}")
     st.error("Failed to load data or train model.")
     st.stop()
 
-# Collect inputs
+# === Threaded Prediction ===
+def make_prediction_async(model, *args):
+    with ThreadPoolExecutor() as executor:
+        future = executor.submit(make_prediction, model, *args)
+        return future.result()
+
+# === Threaded PDF Generation ===
+def generate_report_async(data):
+    with ThreadPoolExecutor() as executor:
+        future = executor.submit(generate_pdf_report, data)
+        return future.result()
+
+# === Form Input ===
 with st.form("ASD Form"):
     answers = [st.selectbox(q, [''] + OPTIONS, key=f"q{i}", index=0) for i, q in enumerate(QUESTIONS)]
     jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
@@ -58,14 +74,14 @@ with st.form("ASD Form"):
     who_completed = st.selectbox("Who completed the test?", ['Mother', 'Parent', 'Health Care Professional', 'Family member'], index=0)
     submitted = st.form_submit_button("🔍 Predict")
 
-# Prediction
+# === Prediction Logic ===
 if submitted:
     if '' in answers:
         st.error("Please answer all the questions before submitting.")
         logging.warning("Incomplete form submitted.")
     else:
         try:
-            qchat_score, ml_result, proba, binary_answers = make_prediction(
+            qchat_score, ml_result, proba, binary_answers = make_prediction_async(
                 model, answers, jaundice, family_asd, age_mons, FEATURE_COLS, QCHAT_THRESHOLD
             )
 
@@ -75,6 +91,7 @@ if submitted:
             st.markdown(f"- **Confidence**: `{proba:.2f}`")
             plot_qchat_score(qchat_score)
 
+            # === Result Data ===
             result_data = {
                 'name': 'Anonymous User',
                 'email': 'anonymous@example.com',
@@ -94,7 +111,7 @@ if submitted:
             st.subheader("📄 Generate Your Report")
 
             try:
-                pdf_path = generate_pdf_report(result_data)
+                pdf_path = generate_report_async(result_data)
                 if pdf_path and os.path.exists(pdf_path):
                     with open(pdf_path, "rb") as f:
                         st.download_button(
@@ -116,4 +133,5 @@ if submitted:
             logging.error(f"Prediction failed: {e}")
             st.error("Prediction failed. Please try again.")
 
+# === Sidebar Footer ===
 st.sidebar.info("Developed with ❤️ using Streamlit by Code-Craft")
