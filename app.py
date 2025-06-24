@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import logging
 from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 
 from src.utils.report_generator import generate_pdf_report
 from src.core.data_loader import load_data
