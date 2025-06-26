@@ -1,0 +1,37 @@
+# Python virtual environments
+venv/
+__pycache__/
+
+# Log files
+*.log
+asd_app.log
+
+# IDE/editor-specific files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Temporary or build files
+*.pyc
+*.pyo
+*.pyd
+*.swp
+dist/
+build/
+node_modules/
+
+# Environment variable files
+.env
+.env.local
+
+# Large data files (optional)
+*.csv
+*.xlsx
+*.h5
+datasets/
+.docx
