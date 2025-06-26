@@ -30,8 +30,8 @@ node_modules/
 .env.local
 
 # Large data files (optional)
+datasets/
 *.csv
 *.xlsx
 *.h5
-datasets/
-.docx
+
