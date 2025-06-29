@@ -69,7 +69,7 @@ with st.form("ASD Form"):
     jaundice = st.radio("Was the child born with jaundice?", ['Yes', 'No'])
     family_asd = st.radio("Is there a family member with ASD?", ['Yes', 'No'])
     age_mons = st.slider("Age of child (months):", 12, 48, 24)
-    sex = st.radio('Gender of the toddler', ['m', 'f'])
+    sex = st.radio('Gender of the toddler', ['M', 'F'])
     ethnicity = st.text_input('Enter the Ethnicity of the toddler')
     who_completed = st.selectbox("Who completed the test?", ['Mother', 'Parent', 'Health Care Professional', 'Family member'], index=0)
     submitted = st.form_submit_button("🔍 Predict")
